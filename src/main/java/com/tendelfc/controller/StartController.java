@@ -19,7 +19,7 @@ import repository.OrganizadorRepository;
 @RequestMapping("/")
 public class StartController {
 	
-	@Autowired
+	@Autowired(required = false)
 	private OrganizadorRepository organizadorRepository;
 
 	@GetMapping
