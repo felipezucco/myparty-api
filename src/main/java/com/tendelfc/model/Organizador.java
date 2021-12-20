@@ -1,4 +1,4 @@
-package com.tendelfc.entity;
+package com.tendelfc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

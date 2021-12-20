@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tendelfc.entity.Organizador;
-
-import repository.OrganizadorRepository;
+import com.tendelfc.model.Organizador;
+import com.tendelfc.repository.OrganizadorRepository;
 
 @RestController
 @RequestMapping("/org")
