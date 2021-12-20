@@ -13,7 +13,7 @@ public class Organizador {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "nome")
+	@Column
 	private String name;
 
 	public Long getId() {
