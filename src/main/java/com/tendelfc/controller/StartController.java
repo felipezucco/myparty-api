@@ -16,10 +16,10 @@ import com.tendelfc.entity.Organizador;
 import repository.OrganizadorRepository;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/org")
 public class StartController {
 	
-	@Autowired(required = false)
+	@Autowired
 	private OrganizadorRepository organizadorRepository;
 
 	@GetMapping
