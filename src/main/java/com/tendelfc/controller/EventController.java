@@ -23,8 +23,8 @@ public class EventController {
 	@Autowired
 	private EventRepository eventRepository;
 	
-	@Autowired
-	private LocalRepository localRepository;
+//	@Autowired
+//	private LocalRepository localRepository;
 	
 	@GetMapping
 	private List<Event> getEvents() {
@@ -37,10 +37,10 @@ public class EventController {
 		return eventRepository.save(event);
 	}
 	
-	@PostMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
-	private Local createLocal(@RequestBody Local local) {
-		return localRepository.save(local);
-	}
+//	@PostMapping
+//	@ResponseStatus(code = HttpStatus.CREATED)
+//	private Local createLocal(@RequestBody Local local) {
+//		return localRepository.save(local);
+//	}
 	
 }
