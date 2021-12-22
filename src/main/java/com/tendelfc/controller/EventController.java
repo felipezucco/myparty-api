@@ -11,26 +11,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tendelfc.model.Organizador;
-import com.tendelfc.repository.OrganizadorRepository;
+import com.tendelfc.model.Event;
+import com.tendelfc.model.Local;
+import com.tendelfc.repository.EventRepository;
+import com.tendelfc.repository.LocalRepository;
 
 @RestController
-@RequestMapping("/org")
-public class StartController {
+@RequestMapping("/event")
+public class EventController {
+
+	@Autowired
+	private EventRepository eventRepository;
 	
 	@Autowired
-	private OrganizadorRepository organizadorRepository;
-
+	private LocalRepository localRepository;
+	
 	@GetMapping
-	public List<Organizador> organizadores() {
-		return organizadorRepository.findAll();
+	private List<Event> getEvents() {
+		return eventRepository.findAll();
 	}
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Organizador novoOrganizador(@RequestBody Organizador organizador) {
-		return organizadorRepository.save(organizador);
-		
+	private Event createEvent(@RequestBody Event event) {
+		return eventRepository.save(event);
+	}
+	
+	@PostMapping
+	@ResponseStatus(code = HttpStatus.CREATED)
+	private Local createLocal(@RequestBody Local local) {
+		return localRepository.save(local);
 	}
 	
 }

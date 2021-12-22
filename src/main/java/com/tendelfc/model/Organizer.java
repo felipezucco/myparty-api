@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Organizador {
+public class Organizer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
