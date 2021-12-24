@@ -5,15 +5,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name= "organizador")
 public class Organizer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "organizador_id")
 	private Long id;
 	
-	@Column
+	@Column(name = "nome")
 	private String name;
 
 	public Long getId() {
