@@ -24,6 +24,6 @@ public class TicketBracelet {
 	
 	@JoinColumn(name = "lote_ingresso_id", referencedColumnName = "lote_ingresso_id")
 	@ManyToOne(fetch = FetchType.LAZY)
-	private TicketBatch ticketBatch;2
+	private TicketBatch ticketBatch;
 	
 }
