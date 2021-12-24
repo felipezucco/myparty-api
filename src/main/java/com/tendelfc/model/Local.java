@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Local {
@@ -15,6 +16,7 @@ public class Local {
 	private Long id;
 	
 	@Column(name = "cidade")
+	@NotBlank(message = "Cidade não pode ser nula ou vazia.")
 	private String city;
 	
 	@Column(length = 2)
