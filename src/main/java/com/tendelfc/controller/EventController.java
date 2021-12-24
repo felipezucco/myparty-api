@@ -1,6 +1,8 @@
 package com.tendelfc.controller;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,13 +36,22 @@ public class EventController {
 	@PostMapping(value = "/newEvent")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	private Event createEvent(@RequestBody Event event) {
+		
+		
 		return eventRepository.save(event);
 	}
 	
 	@PostMapping(value = "/newLocal")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private Local createLocal(@RequestBody Local local) {
-		return localRepository.save(local);
+	private Local createLocal(@RequestBody Local local) throws Exception {
+		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);
+		try {
+			local = localRepository.save(local);
+			Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Local criado com sucesso: " + local.getId());
+			return local;
+		} catch (Exception e) {
+			throw new Exception("Erro ao criar local: " + e.getMessage(), e);
+		}				
 	}
 	
 }
