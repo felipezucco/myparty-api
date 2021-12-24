@@ -31,13 +31,13 @@ public class EventController {
 		return eventRepository.findAll();
 	}
 	
-	@PostMapping
+	@PostMapping(value = "/newEvent")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	private Event createEvent(@RequestBody Event event) {
 		return eventRepository.save(event);
 	}
 	
-	@PostMapping
+	@PostMapping(value = "/newLocal")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	private Local createLocal(@RequestBody Local local) {
 		return localRepository.save(local);
