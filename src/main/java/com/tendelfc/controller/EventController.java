@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.tendelfc.model.Event;
 import com.tendelfc.model.Local;
@@ -36,13 +37,13 @@ public class EventController {
 		return eventRepository.findAll();
 	}
 	
-	@PostMapping(value = "/newEvent")
+	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	private Event createEvent(@RequestBody Event event) {
 		return eventRepository.save(event);
 	}
 	
-	@PostMapping(value = "/newLocal")
+	@PostMapping(value = "/local")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	private ResponseEntity<?> createLocal(@RequestBody Local local) throws Exception {
 		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);
@@ -50,7 +51,7 @@ public class EventController {
 			local = localRepository.save(local);
 			return ResponseEntity.created(URI.create("/local/"+local.getId())).build();
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Erro ao criar Local: " + e.getMessage());
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Erro ao criar local.", e);
 		}				
 	}
 	
