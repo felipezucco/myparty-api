@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,10 +42,11 @@ public class EventController {
 	
 	@PostMapping(value = "/newLocal")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private Local createLocal(@RequestBody Local local) throws Exception {
+	private ResponseEntity<Local> createLocal(@RequestBody Local local) throws Exception {
 		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);
 		try {
-			return localRepository.save(local);
+			local = localRepository.save(local);
+			return new ResponseEntity<Local>(local, HttpStatus.CREATED);
 		} catch (Exception e) {
 			throw new Exception("Erro ao criar local: " + e.getMessage(), e);
 		}				
