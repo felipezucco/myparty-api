@@ -16,7 +16,6 @@ public class Local {
 	private Long id;
 	
 	@Column(name = "cidade")
-	@NotBlank(message = "Cidade não pode ser nula ou vazia.")
 	private String city;
 	
 	@Column(length = 2)
