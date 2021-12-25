@@ -42,13 +42,13 @@ public class EventController {
 	
 	@PostMapping(value = "/newLocal")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private ResponseEntity<Local> createLocal(@RequestBody Local local) throws Exception {
+	private ResponseEntity createLocal(@RequestBody Local local) throws Exception {
 		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);
 		try {
 			local = localRepository.save(local);
 			return new ResponseEntity<Local>(local, HttpStatus.CREATED);
 		} catch (Exception e) {
-			throw new Exception("Erro ao criar local: " + e.getMessage(), e);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Erro ao criar Local: " + e.getMessage());
 		}				
 	}
 	
