@@ -36,8 +36,6 @@ public class EventController {
 	@PostMapping(value = "/newEvent")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	private Event createEvent(@RequestBody Event event) {
-		
-		
 		return eventRepository.save(event);
 	}
 	
@@ -46,9 +44,7 @@ public class EventController {
 	private Local createLocal(@RequestBody Local local) throws Exception {
 		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);
 		try {
-			local = localRepository.save(local);
-			Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Local criado com sucesso: " + local.getId());
-			return local;
+			return localRepository.save(local);
 		} catch (Exception e) {
 			throw new Exception("Erro ao criar local: " + e.getMessage(), e);
 		}				
