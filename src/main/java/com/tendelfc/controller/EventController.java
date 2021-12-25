@@ -1,5 +1,6 @@
 package com.tendelfc.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,14 +44,19 @@ public class EventController {
 	
 	@PostMapping(value = "/newLocal")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private ResponseEntity createLocal(@RequestBody Local local) throws Exception {
+	private ResponseEntity<?> createLocal(@RequestBody Local local) throws Exception {
 		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);
 		try {
 			local = localRepository.save(local);
-			return new ResponseEntity<Local>(local, HttpStatus.CREATED);
+			return ResponseEntity.created(URI.create("/local/"+local.getId())).build();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Erro ao criar Local: " + e.getMessage());
 		}				
+	}
+	
+	@GetMapping(value = "/local/{id}")
+	private ResponseEntity<?> getLocal(@PathVariable("id") Long id) {
+		return ResponseEntity.ok(localRepository.findById(id));
 	}
 	
 }
