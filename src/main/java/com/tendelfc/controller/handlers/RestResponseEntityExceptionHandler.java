@@ -13,7 +13,7 @@ public class RestResponseEntityExceptionHandler
   extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value 
-      = { IllegalArgumentException.class, IllegalStateException.class })
+      = { IllegalArgumentException.class, IllegalStateException.class, javax.validation.ConstraintViolationException.class })
     protected ResponseEntity<Object> handleConflict(
       RuntimeException ex, WebRequest request) {
         String bodyOfResponse = "This should be application specific";
