@@ -12,12 +12,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestResponseEntityExceptionHandler 
   extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value 
-      = { IllegalArgumentException.class, IllegalStateException.class, javax.validation.ConstraintViolationException.class })
-    protected ResponseEntity<Object> handleConflict(
-      RuntimeException ex, WebRequest request) {
+    @ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class, javax.validation.ConstraintViolationException.class })
+    protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
         String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse, 
-          new HttpHeaders(), HttpStatus.CONFLICT, request);
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 }
