@@ -42,6 +42,12 @@ public class EventController {
 		return eventRepository.save(event);
 	}
 	
+	@GetMapping(value = "/local")
+	private ResponseEntity<?> getLocals() throws Exception {	
+		List<Local> locals = localRepository.findAll();
+		return ResponseEntity.ok(locals);			
+	}
+	
 	@PostMapping(value = "/local")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	private ResponseEntity<?> createLocal(@RequestBody Local local) throws Exception {
