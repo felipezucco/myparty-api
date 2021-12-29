@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.tendelfc.model.Event;
 import com.tendelfc.model.Local;
@@ -46,7 +45,7 @@ public class EventController {
 	@PostMapping(value = "/local")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	private ResponseEntity<?> createLocal(@RequestBody Local local) throws Exception {
-		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);
+		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);	
 		local = localRepository.save(local);
 		return ResponseEntity.created(URI.create("/local/"+local.getId())).build();			
 	}
