@@ -29,7 +29,7 @@ public class Local {
 	private String code;
 	
 	@Column(name = "numero")
-	private String number;
+	private Integer number;
 	
 	@Column(name = "coordenada_x")
 	private Double coordenateX;
