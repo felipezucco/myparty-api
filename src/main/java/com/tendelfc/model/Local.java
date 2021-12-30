@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 public class Local {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "local_id")
 	private Long id;
 	
