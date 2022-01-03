@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tendelfc.dto.LocalDTO;
 import com.tendelfc.model.Event;
 import com.tendelfc.model.Local;
 import com.tendelfc.repository.EventRepository;
 import com.tendelfc.repository.LocalRepository;
+import com.tendelfc.service.LocalService;
 
 @RestController
 @RequestMapping("/event")
@@ -29,7 +32,7 @@ public class EventController {
 	private EventRepository eventRepository;
 	
 	@Autowired
-	private LocalRepository localRepository;
+	private LocalService localService;
 	
 	@GetMapping
 	private List<Event> getEvents() {
@@ -42,23 +45,22 @@ public class EventController {
 		return eventRepository.save(event);
 	}
 	
-	@GetMapping(value = "/local")
-	private ResponseEntity<?> getLocals() throws Exception {	
-		List<Local> locals = localRepository.findAll();
-		return ResponseEntity.ok(locals);			
-	}
+//	@GetMapping(value = "/local")
+//	private ResponseEntity<?> getLocals() throws Exception {	
+//		List<Local> locals = localRepository.findAll();
+//		return ResponseEntity.ok(locals);			
+//	}
 	
 	@PostMapping(value = "/local")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private ResponseEntity<?> createLocal(@RequestBody Local local) throws Exception {
-		Logger.getLogger(this.getClass().toString()).log(Level.INFO, "Criando novo local: " + local);	
-		local = localRepository.save(local);
+	private ResponseEntity<?> createLocal(@RequestBody LocalDTO local) throws Exception {
+		localService.saveLocal(local);
 		return ResponseEntity.created(URI.create("/local/"+local.getId())).build();			
 	}
-	
-	@GetMapping(value = "/local/{id}")
-	private ResponseEntity<?> getLocal(@PathVariable("id") Long id) {
-		return ResponseEntity.ok(localRepository.findById(id));
-	}
+//	
+//	@GetMapping(value = "/local/{id}")
+//	private ResponseEntity<?> getLocal(@PathVariable("id") Long id) {
+//		return ResponseEntity.ok(localRepository.findById(id));
+//	}
 	
 }
