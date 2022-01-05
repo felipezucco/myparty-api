@@ -1,5 +1,9 @@
 package com.tendelfc.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +26,15 @@ public class LocalService {
 		localRepository.save(local);
 		localDTO.setId(local.getId());
 		return localDTO;
+	}
+	
+	public List<LocalDTO> getLocals() {
+		List<Local> locals = localRepository.findAll();
+		return locals.stream().map(l -> mapper.map(l, LocalDTO.class)).collect(Collectors.toList());
+	}
+	
+	public LocalDTO getLocalById(Long id) {
+		Optional<Local> local = localRepository.findById(id);		
+		return local.map(l -> mapper.map(l, LocalDTO.class)).orElseGet(null); 
 	}
 }

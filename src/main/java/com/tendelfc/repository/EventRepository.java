@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tendelfc.model.Event;
 
+
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long>{
 

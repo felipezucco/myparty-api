@@ -1,6 +1,7 @@
 package com.tendelfc.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,32 +14,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tendelfc.dto.EventDTO;
-import com.tendelfc.service.EventService;
+import com.tendelfc.dto.LocalDTO;
+import com.tendelfc.service.LocalService;
 
 @RestController
-@RequestMapping("/event")
-public class EventController {
+@RequestMapping("/local")
+public class LocalController {
 
 	@Autowired
-	private EventService eventService;
-		
+	private LocalService localService;
+	
 	@GetMapping
-	private ResponseEntity<?> getEvents() {
-		return ResponseEntity.ok(eventService.getEvents());
+	private ResponseEntity<?> getLocals() throws Exception {	
+		List<LocalDTO> localsDTO = localService.getLocals(); 
+		return ResponseEntity.ok(localsDTO);			
 	}
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private ResponseEntity<?> createEvent(@RequestBody EventDTO eventDTO) {
-		eventService.saveEvent(eventDTO);
-		URI uri = URI.create("/event/"+eventDTO.getId());
-		return ResponseEntity.created(uri).build();
+	private ResponseEntity<?> createLocal(@RequestBody LocalDTO local) throws Exception {
+		localService.saveLocal(local);
+		return ResponseEntity.created(URI.create("/local/"+local.getId())).build();			
 	}
 	
-	@GetMapping("/event/{id}")
-	private ResponseEntity<?> getEventById(@PathVariable("id") Long id) {
-		return ResponseEntity.ok(eventService.getEventById(id));
+	@GetMapping(value = "/local/{id}")
+	private ResponseEntity<?> getLocal(@PathVariable("id") Long id) {
+		return ResponseEntity.ok(localService.getLocalById(id));
 	}
 		
+	
 }
