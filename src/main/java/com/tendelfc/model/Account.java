@@ -6,30 +6,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.tendelfc.enums.RoleEnum;
+
 import lombok.Data;
 
 @Data
 @Entity
-public class Local {
+public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "local_id")
+	@Column(name = "account_id")
 	private Long id;
-
-	private String city;
-
-	@Column(length = 2)
-	private String state;
-
-	private String aisle;
-
-	private String code;
-
-	private Integer number;
-
-	private Double coordenateX;
 	
-	private Double coordenateY;
+	private String username;
+	
+	private String password;
+	
+	private String name;
+	
+	private String email;
 
+	@Column(name = "role_number")
+	private RoleEnum role;
+	
 }

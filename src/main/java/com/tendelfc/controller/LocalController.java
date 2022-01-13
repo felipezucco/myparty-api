@@ -37,7 +37,7 @@ public class LocalController {
 		return ResponseEntity.created(URI.create("/local/"+local.getId())).build();			
 	}
 	
-	@GetMapping(value = "/local/{id}")
+	@GetMapping(value = "/{id}")
 	private ResponseEntity<?> getLocal(@PathVariable("id") Long id) {
 		return ResponseEntity.ok(localService.getLocalById(id));
 	}

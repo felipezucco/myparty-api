@@ -10,26 +10,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
-@Table(name = "lote_ingresso")
+@Table(name = "ticket_batch")
+@Data
 public class TicketBatch {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "lote_ingresso_id")
+	@Column(name = "ticket_batch_id")
 	private Long id;
 		
-	@Column(name = "numero")
 	private Integer number;
 	
-	@Column(name = "preco")
 	private Double price;
 	
-	@JoinColumn(name = "ingresso_id", referencedColumnName = "ingresso_id")
+	@JoinColumn(name = "ticket_id", referencedColumnName = "ticket_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Ticket ticket;
-	
-	
-	
 	
 }

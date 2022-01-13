@@ -7,7 +7,7 @@ public class LocalDTO {
 
 	private Long id;
 	private String city;
-	private String uf;
+	private String state;
 	private String aisle;
 	private String code;
 	private Integer number;

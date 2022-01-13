@@ -1,7 +1,5 @@
 package com.tendelfc.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,20 +11,23 @@ import javax.persistence.ManyToOne;
 
 import lombok.Data;
 
-@Entity
 @Data
-public class Ticket implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+@Entity
+public class Zone {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ticket_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "zone_id")
 	private Long id;
-
+	
 	private String name;
-
-	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
+	
+	private Double size;
+	
+	private String color;
+	
+	@JoinColumn(name = "house_id", referencedColumnName = "house_id")
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Event event;
+	private House house;
 	
 }

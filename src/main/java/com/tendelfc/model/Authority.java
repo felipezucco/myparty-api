@@ -8,28 +8,15 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
-@Data
 @Entity
-public class Local {
+@Data
+public class Authority {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "local_id")
+	@Column(name = "authority_id")
 	private Long id;
-
-	private String city;
-
-	@Column(length = 2)
-	private String state;
-
-	private String aisle;
-
-	private String code;
-
-	private Integer number;
-
-	private Double coordenateX;
 	
-	private Double coordenateY;
-
+	private String authority;
+	
 }
