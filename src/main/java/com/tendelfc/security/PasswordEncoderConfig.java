@@ -1,4 +1,4 @@
-package com.tendelfc.common;
+package com.tendelfc.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

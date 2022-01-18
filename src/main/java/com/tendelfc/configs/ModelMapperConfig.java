@@ -1,4 +1,4 @@
-package com.tendelfc.common;
+package com.tendelfc.configs;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -16,17 +16,21 @@ public class ModelMapperConfig {
 	public ModelMapper modelMapper() {
 		ModelMapper mapper = new ModelMapper();
 		
-		Converter<Integer, RoleEnum> roleConverter = ctx -> RoleEnum.getRoleEnumById(ctx.getSource());
+		roleMapper(mapper);
 		
+		return mapper;
+	}
+	
+	private ModelMapper roleMapper(ModelMapper mapper) {
+		Converter<Integer, RoleEnum> integerToRoleConverter = ctx -> RoleEnum.getRoleEnumById(ctx.getSource());
 		mapper.createTypeMap(AccountDTO.class, Account.class)
-			.addMappings(map -> map.using(roleConverter)
+			.addMappings(map -> map.using(integerToRoleConverter)
 				.map(AccountDTO::getRole, Account::setRole));
 		
-		/*mapper.createTypeMap(User.class, UserDTO.class)
-			.addMapping(user -> user.getRole(), (dto, value) -> {
-				if (value != null) dto.setRole(((RoleEnum) value).getId());
-				else dto.setRole(null);
-			});*/
+		Converter<RoleEnum, Integer> roleToIntegerConverter = ctx -> ctx.getSource().getId();
+		mapper.createTypeMap(Account.class, AccountDTO.class)
+			.addMappings(map -> map.using(roleToIntegerConverter)
+				.map(Account::getRole, AccountDTO::setRole));
 		
 		return mapper;
 	}
