@@ -1,5 +1,7 @@
 package com.tendelfc.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tendelfc.dto.AccountDTO;
+import com.tendelfc.model.Account;
 import com.tendelfc.service.AccountService;
 
 @RestController
@@ -23,6 +26,7 @@ public class AccountController {
 	
 	@PostMapping
 	public ResponseEntity<?> saveUser(@RequestBody AccountDTO userDTO) {
+		accountService.checkUsernameEmailAccount(userDTO.getUsername(), userDTO.getEmail());
 		accountService.saveUser(userDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
 	}

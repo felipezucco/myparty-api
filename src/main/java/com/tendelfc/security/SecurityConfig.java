@@ -5,15 +5,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.tendelfc.enums.RoleEnum;
-import com.tendelfc.service.AccountService;
 import com.tendelfc.service.AuthService;
 
 @EnableWebSecurity
@@ -23,16 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthService authService;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
 	private JWTService jwtService;
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(authService)
-			.passwordEncoder(passwordEncoder);
-	}
 
 	@Bean
 	public OncePerRequestFilter jwtFilter() {
@@ -41,7 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
+		http.csrf().disable().cors()
+			.and()
 			.authorizeRequests()
 				.antMatchers("/event/**").hasAnyRole(RoleEnum.ADMIN.name())
 				.antMatchers("/local/**").hasAnyRole(RoleEnum.MANAGER.name(), RoleEnum.USER.name())

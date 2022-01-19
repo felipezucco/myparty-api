@@ -6,8 +6,6 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.tendelfc.model.Account;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
@@ -47,9 +45,9 @@ public class JWTService {
 			getClaims(token);
 			return true;
 		} catch (ExpiredJwtException e) {
-			return false;
+			throw e;
 		} catch (Exception e) {
-			return false;
+			throw e;
 		}
 	}
 	

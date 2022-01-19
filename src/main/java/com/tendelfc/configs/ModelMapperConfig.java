@@ -16,18 +16,24 @@ public class ModelMapperConfig {
 	public ModelMapper modelMapper() {
 		ModelMapper mapper = new ModelMapper();
 		
-		roleMapper(mapper);
+		accountMapper(mapper);
 		
 		return mapper;
 	}
 	
-	private ModelMapper roleMapper(ModelMapper mapper) {
-		Converter<Integer, RoleEnum> integerToRoleConverter = ctx -> RoleEnum.getRoleEnumById(ctx.getSource());
+	private ModelMapper accountMapper(ModelMapper mapper) {
+		Converter<Integer, RoleEnum> integerToRoleConverter = ctx -> {
+			if (ctx.getSource() == null) return RoleEnum.USER;
+			else return RoleEnum.getRoleEnumById(ctx.getSource());
+		};
 		mapper.createTypeMap(AccountDTO.class, Account.class)
 			.addMappings(map -> map.using(integerToRoleConverter)
 				.map(AccountDTO::getRole, Account::setRole));
 		
-		Converter<RoleEnum, Integer> roleToIntegerConverter = ctx -> ctx.getSource().getId();
+		Converter<RoleEnum, Integer> roleToIntegerConverter = ctx -> {
+			if (ctx.getSource() == null) return RoleEnum.USER.getId();
+			else return ctx.getSource().getId();
+		};
 		mapper.createTypeMap(Account.class, AccountDTO.class)
 			.addMappings(map -> map.using(roleToIntegerConverter)
 				.map(Account::getRole, AccountDTO::setRole));
