@@ -17,6 +17,8 @@ import com.tendelfc.model.Account;
 import com.tendelfc.repository.AccountRepository;
 import com.tendelfc.security.JWTService;
 
+import io.jsonwebtoken.Claims;
+
 @Service
 public class AuthService implements UserDetailsService {
 
@@ -60,6 +62,14 @@ public class AuthService implements UserDetailsService {
 		
 		String token = jwtService.createToken(username);
 		tokenDTO.setToken(token);
+		return tokenDTO;
+	}
+	
+	public TokenDTO validateToken(String token) {
+		Claims claims = jwtService.validateToken(token);
+		TokenDTO tokenDTO = new TokenDTO();
+		tokenDTO.setToken(token);
+		tokenDTO.setUsername(claims.getSubject());
 		return tokenDTO;
 	}
 }

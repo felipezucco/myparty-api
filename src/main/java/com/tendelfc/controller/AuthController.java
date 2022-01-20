@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tendelfc.dto.LoginDTO;
+import com.tendelfc.dto.TokenDTO;
 import com.tendelfc.service.AuthService;
 
 @RestController
@@ -27,6 +29,12 @@ public class AuthController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário e/ou senha inválidos!");
 		}
+	}
+	
+	@PostMapping("/recover")
+	public ResponseEntity<?> recoverAuth(@RequestBody String token) {
+		TokenDTO tokenDTO = authService.validateToken(token);
+		return ResponseEntity.status(HttpStatus.OK).body(tokenDTO);
 	}
 	
 }

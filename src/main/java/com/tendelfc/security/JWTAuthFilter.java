@@ -44,7 +44,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 		boolean validToken = false;
 		if (token != null) {
 			try {
-				validToken = jwtService.validateToken(token);
+				validToken = !jwtService.validateToken(token).isEmpty();
 			} catch (ExpiredJwtException e) {
 				SecurityContextHolder.clearContext();
 				authenticationEntryPoint.commence(request, response, new ExpiratedTokenException("Token inválido", e));

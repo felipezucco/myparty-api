@@ -40,10 +40,9 @@ public class JWTService {
 		return Jwts.parser().setSigningKey(signature).parseClaimsJws(token).getBody();
 	}
 	
-	public boolean validateToken(String token) {
+	public Claims validateToken(String token) {
 		try {
-			getClaims(token);
-			return true;
+			return getClaims(token);
 		} catch (ExpiredJwtException e) {
 			throw e;
 		} catch (Exception e) {
