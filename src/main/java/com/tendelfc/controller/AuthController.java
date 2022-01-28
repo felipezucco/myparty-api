@@ -1,5 +1,7 @@
 package com.tendelfc.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,11 @@ public class AuthController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário e/ou senha inválidos!");
 		}
+	}
+	
+	@GetMapping("/logout")
+	public ResponseEntity<?> logout() {
+		return ResponseEntity.ok("Logout realizado com sucesso!");
 	}
 	
 	@PostMapping("/recover")

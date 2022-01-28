@@ -1,5 +1,8 @@
 package com.tendelfc.security;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -10,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.tendelfc.enums.RoleEnum;
@@ -24,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JWTService jwtService;
 
+	@Autowired
+	private LogoutHandlerConfig logoutHandlerConfig;
+	
 	@Bean
 	public OncePerRequestFilter jwtFilter() {
 		return new JWTAuthFilter(jwtService, authService);
@@ -44,7 +51,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 				.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
-			
+		
+		// Logout handler
+		http
+			.logout(logout -> 
+				logout  
+					.clearAuthentication(true)
+		            //.logoutUrl("/auth/logout")                                            
+		            .logoutSuccessUrl("/auth/logout")                                      
+		            //.logoutSuccessHandler(logoutSuccessHandler)                         
+		            //.invalidateHttpSession(true)                                        
+		            .addLogoutHandler((request, response, auth) -> {
+						try {
+							request.logout();
+						} catch (ServletException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					})                                    
+		            .deleteCookies("eventweb.token"));
+
 	}
 
+	
+	
 }

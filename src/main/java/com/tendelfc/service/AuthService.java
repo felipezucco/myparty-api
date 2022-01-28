@@ -55,6 +55,10 @@ public class AuthService implements UserDetailsService {
 		}
 	}
 	
+	public void logout(String token) {
+		
+	}
+	
 	public TokenDTO getToken(UserDetails user) {
 		String username = user.getUsername();
 		TokenDTO tokenDTO = new TokenDTO();
