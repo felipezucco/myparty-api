@@ -18,8 +18,6 @@ import com.tendelfc.controller.handlers.RestAuthenticationEntryPoint;
 import com.tendelfc.exception.ExpiratedTokenException;
 import com.tendelfc.service.AuthService;
 
-import io.jsonwebtoken.ExpiredJwtException;
-
 public class JWTAuthFilter extends OncePerRequestFilter {
 
 	private JWTService jwtService;
@@ -39,13 +37,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		String authorization = request.getHeader("Authorization");
-		String token = jwtService.checkToken(authorization);
-
+		String token = JWTService.checkToken(authorization);
+		
 		boolean validToken = false;
-		if (token != null) {
+		if (token != null && !request.getRequestURI().contains("/auth")) {
 			try {
 				validToken = !jwtService.validateToken(token).isEmpty();
-			} catch (ExpiredJwtException e) {
+			} catch (Exception e) {
 				SecurityContextHolder.clearContext();
 				authenticationEntryPoint.commence(request, response, new ExpiratedTokenException("Token inválido", e));
 				return;
@@ -57,7 +55,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
 						user.getAuthorities());
 				auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+				
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 		}

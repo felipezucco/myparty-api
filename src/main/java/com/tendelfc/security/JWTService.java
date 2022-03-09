@@ -42,10 +42,10 @@ public class JWTService {
 	
 	public Claims validateToken(String token) {
 		try {
+			CachedTokens.validyToken(token);
 			return getClaims(token);
-		} catch (ExpiredJwtException e) {
-			throw e;
 		} catch (Exception e) {
+			CachedTokens.remove(token);
 			throw e;
 		}
 	}
@@ -54,11 +54,10 @@ public class JWTService {
 		return getClaims(token).getSubject();
 	}
 	
-	public String checkToken(String authorization) {
+	public static String checkToken(String authorization) {
 		if (authorization != null && authorization.startsWith("Bearer")) {
 			return authorization.trim().split(" ")[1];
 		} else return null;
-		//else throw new RuntimeException("Token inválido!");
 	}
 	
 }

@@ -1,7 +1,5 @@
 package com.tendelfc.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +15,8 @@ import com.tendelfc.dto.TokenDTO;
 import com.tendelfc.service.AuthService;
 
 @RestController
-@RequestMapping("/auth")
-public class AuthController {
+@RequestMapping("/api/auth")
+public class AuthController {			
 	
 	@Autowired
 	private AuthService authService;
@@ -27,20 +25,15 @@ public class AuthController {
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
 		try {
 			UserDetails user = authService.login(loginDTO);
-			return ResponseEntity.ok(authService.getToken(user));			
+			return ResponseEntity.ok(authService.getNewToken(user));			
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário e/ou senha inválidos!");
 		}
 	}
 	
-	@GetMapping("/logout")
-	public ResponseEntity<?> logout() {
-		return ResponseEntity.ok("Logout realizado com sucesso!");
-	}
-	
 	@PostMapping("/recover")
-	public ResponseEntity<?> recoverAuth(@RequestBody String token) {
-		TokenDTO tokenDTO = authService.validateToken(token);
+	public ResponseEntity<?> recoverAuth(@RequestBody TokenDTO token) {
+		TokenDTO tokenDTO = authService.validateToken(token.getToken());
 		return ResponseEntity.status(HttpStatus.OK).body(tokenDTO);
 	}
 	

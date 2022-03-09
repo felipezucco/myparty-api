@@ -18,27 +18,27 @@ import com.tendelfc.dto.LocalDTO;
 import com.tendelfc.service.LocalService;
 
 @RestController
-@RequestMapping("/local")
+@RequestMapping("/api/local")
 public class LocalController {
 
 	@Autowired
 	private LocalService localService;
 	
 	@GetMapping
-	private ResponseEntity<?> getLocals() throws Exception {	
+	private ResponseEntity<List<LocalDTO>> getLocals() throws Exception {	
 		List<LocalDTO> localsDTO = localService.getLocals(); 
 		return ResponseEntity.ok(localsDTO);			
 	}
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	private ResponseEntity<?> createLocal(@RequestBody LocalDTO local) throws Exception {
+	private ResponseEntity<LocalDTO> createLocal(@RequestBody LocalDTO local) throws Exception {
 		localService.saveLocal(local);
-		return ResponseEntity.created(URI.create("/local/"+local.getId())).build();			
+		return ResponseEntity.status(HttpStatus.CREATED).body(local);			
 	}
 	
 	@GetMapping(value = "/{id}")
-	private ResponseEntity<?> getLocal(@PathVariable("id") Long id) {
+	private ResponseEntity<LocalDTO> getLocal(@PathVariable("id") Long id) {
 		return ResponseEntity.ok(localService.getLocalById(id));
 	}
 		

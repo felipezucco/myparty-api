@@ -15,6 +15,7 @@ import com.tendelfc.dto.TokenDTO;
 import com.tendelfc.exception.MismatchedPasswordException;
 import com.tendelfc.model.Account;
 import com.tendelfc.repository.AccountRepository;
+import com.tendelfc.security.CachedTokens;
 import com.tendelfc.security.JWTService;
 
 import io.jsonwebtoken.Claims;
@@ -55,16 +56,14 @@ public class AuthService implements UserDetailsService {
 		}
 	}
 	
-	public void logout(String token) {
-		
-	}
-	
-	public TokenDTO getToken(UserDetails user) {
+	public TokenDTO getNewToken(UserDetails user) {
 		String username = user.getUsername();
 		TokenDTO tokenDTO = new TokenDTO();
 		tokenDTO.setUsername(username);
 		
 		String token = jwtService.createToken(username);
+		CachedTokens.add(token);
+
 		tokenDTO.setToken(token);
 		return tokenDTO;
 	}
@@ -75,5 +74,5 @@ public class AuthService implements UserDetailsService {
 		tokenDTO.setToken(token);
 		tokenDTO.setUsername(claims.getSubject());
 		return tokenDTO;
-	}
+	}		
 }
