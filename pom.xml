@@ -8,11 +8,11 @@
 		<version>2.6.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.tendelfc.api</groupId>
-	<artifactId>tendelfc</artifactId>
+	<groupId>com.myparty.api</groupId>
+	<artifactId>myparty</artifactId>
 	<version>1.0.0</version>
-	<name>tendelfc</name>
-	<description>API do TendelFC</description>
+	<name>myparty</name>
+	<description>My Party</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
