@@ -11,30 +11,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.myparty.dto.LoginDTO;
 import com.myparty.dto.TokenDTO;
+import com.myparty.exception.AuthException;
 import com.myparty.service.AuthService;
-
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {			
-	
+public class AuthController {
+
 	@Autowired
 	private AuthService authService;
-	
+
 	@PostMapping
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
 		try {
 			UserDetails user = authService.login(loginDTO);
-			return ResponseEntity.ok(authService.getNewToken(user));			
+			return ResponseEntity.ok(authService.getNewToken(user));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário e/ou senha inválidos!");
+			throw new AuthException.BadCredentialException();
 		}
 	}
-	
+
 	@PostMapping("/recover")
 	public ResponseEntity<?> recoverAuth(@RequestBody TokenDTO token) {
 		TokenDTO tokenDTO = authService.validateToken(token.getToken());
 		return ResponseEntity.status(HttpStatus.OK).body(tokenDTO);
 	}
-	
+
 }

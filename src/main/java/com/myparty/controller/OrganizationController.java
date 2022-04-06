@@ -16,11 +16,10 @@ import com.myparty.dto.OrganizationDTO;
 import com.myparty.dto.OrganizerDTO;
 import com.myparty.service.OrganizationService;
 
-
 @RestController
 @RequestMapping("/api/organization")
 public class OrganizationController {
-	
+
 	@Autowired
 	private OrganizationService organizationService;
 
@@ -28,29 +27,26 @@ public class OrganizationController {
 	public ResponseEntity<List<OrganizationDTO>> getOrganizations() {
 		return ResponseEntity.ok(organizationService.getOrganizations());
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ResponseEntity<OrganizationDTO> persistOrganization(@RequestBody OrganizationDTO organizationDTO) {
 		organizationService.persistOrganization(organizationDTO);
 		return ResponseEntity.ok(organizationDTO);
-		
 	}
-	
+
 	@GetMapping("/organizer")
 	public ResponseEntity<List<OrganizerDTO>> getOrganizers() {
 		return ResponseEntity.ok(organizationService.getOrganizers());
-		
+
 	}
-	
+
 	@PostMapping("/organizer")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ResponseEntity<OrganizerDTO> persistOrganizer(@RequestBody OrganizerDTO organizerDTO) {
 		organizationService.persistOrganizer(organizerDTO);
 		return ResponseEntity.ok(organizerDTO);
-		
+
 	}
-	
-	
-	
+
 }

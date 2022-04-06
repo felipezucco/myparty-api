@@ -57,4 +57,8 @@ public class AccountService {
 		List<AccountDTO> existEmail = getUsersByExample(Account.email(email));
 		if (!existEmail.isEmpty()) throw new AccountException.EmailExistException(email);
 	}
+	
+	public List<String> getUserEmailByParam(String email) {
+		return accountRepository.findByEmailStartsWith(email).parallelStream().map(acc -> acc.getEmail()).collect(Collectors.toList());
+	}
 }
