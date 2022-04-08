@@ -22,17 +22,16 @@ public class Organizer {
 	@Id
 	@GenericGenerator(strategy = "uuid", name = "system-uuid")
 	@GeneratedValue(generator = "uuid")
-	@Column(name = "organizer_id")
 	private Long id;
 
-	@JoinColumn(name = "account_id", referencedColumnName = "account_id",  foreignKey = @ForeignKey(name = "organizer_account_fk"))
+	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "organizer_user_fk"))
 	@OneToOne
-	private Account account;
+	private UserProfile account;
 
 	@Column(name = "role_number")
 	private RoleEnum role = RoleEnum.USER;
 
 	@ManyToOne
-	@JoinColumn(name = "organization_id", referencedColumnName = "organization_id", foreignKey = @ForeignKey(name = "organizer_organization_fk"))
+	@JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "organizer_organization_fk"))
 	private Organization organization;
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.myparty.exception.AccountException;
+import com.myparty.exception.UserException;
 import com.myparty.exception.AuthException;
 
 @ControllerAdvice
@@ -31,7 +31,7 @@ public class RestResponseEntityExceptionHandler
     return handleExceptionInternal(ex, json.toString(), new HttpHeaders(), HttpStatus.CONFLICT, request);
   }
 
-  @ExceptionHandler(value = { AccountException.class })
+  @ExceptionHandler(value = { UserException.class })
   protected ResponseEntity<Object> saveAccountExceptionHandler(RuntimeException ex, WebRequest request) {
     JSONObject json = new JSONObject();
     json.put("error", ex.getMessage());

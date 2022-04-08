@@ -2,7 +2,6 @@ package com.myparty.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,7 +22,6 @@ public class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "event_id")
 	private Long id;
 	
 	private String name;
@@ -31,7 +29,7 @@ public class Event {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
-	@JoinColumn(name = "house_id", referencedColumnName = "house_id")
+	@JoinColumn(name = "house_id")
 	@OneToOne(fetch = FetchType.LAZY)
 	private House house;
 	

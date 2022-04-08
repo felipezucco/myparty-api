@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class OrganizationDTO {
 
-	private Long id;
-	private String name;
-	private Long accountId;
-	private List<OrganizerDTO> organizers;
+    private Long id;
+    private String name;
+    private String owner;
+    private List<String> organizers;
 
 }

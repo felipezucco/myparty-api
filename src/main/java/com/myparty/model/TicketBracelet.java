@@ -1,8 +1,8 @@
 package com.myparty.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,12 +19,11 @@ public class TicketBracelet {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ticket_bracelet_id")
 	private Long id;
 	
 	private Integer number;
 	
-	@JoinColumn(name = "ticket_batch_id", referencedColumnName = "ticket_batch_id")
+	@JoinColumn(name = "ticket_batch_id", foreignKey = @ForeignKey(name = "ticket_brac_ticket_bat_fk"))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private TicketBatch ticketBatch;
 	

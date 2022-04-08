@@ -16,7 +16,6 @@ public class Local {
 	@Id
 	@GenericGenerator(strategy = "uuid",name = "system-uuid")
 	@GeneratedValue(generator = "uuid")
-	@Column(name = "local_id")
 	private Long id;
 	private String city;
 

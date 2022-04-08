@@ -2,9 +2,9 @@ package com.myparty.model;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,15 +22,13 @@ public class House {
 	@Id
 	@GenericGenerator(strategy = "uuid",name = "system-uuid")
 	@GeneratedValue(generator = "uuid")
-	@Column(name = "house_id")
 	private Long id;
 	private String name;
 	
-	@JoinColumn(name = "local_id", referencedColumnName = "local_id")
+	@JoinColumn(name = "local_id", foreignKey = @ForeignKey(name = "house_local_fk"))
 	@OneToOne(fetch = FetchType.LAZY)
 	private Local local;
 	
-//	@JoinColumn(name = "zone_id", referencedColumnName = "zone_id")
 	@OneToMany(mappedBy = "house")
 	private List<Zone> zones;
 	

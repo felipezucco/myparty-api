@@ -1,14 +1,14 @@
 package com.myparty.exception;
 
-public class AccountException extends RuntimeException {
+public class UserException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public AccountException(String msg) {
+	public UserException(String msg) {
 		super(msg);
 	}
 	
-	public static class UsernameExistException extends AccountException {
+	public static class UsernameExistException extends UserException {
 		private static final long serialVersionUID = 1L;
 
 		public UsernameExistException(String username) {
@@ -16,7 +16,7 @@ public class AccountException extends RuntimeException {
 		}
 	}
 	
-	public static class EmailExistException extends AccountException {
+	public static class EmailExistException extends UserException {
 		private static final long serialVersionUID = 1L;
 
 		public EmailExistException(String username) {
