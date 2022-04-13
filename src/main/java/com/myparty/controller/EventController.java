@@ -1,5 +1,6 @@
 package com.myparty.controller;
 
+import com.myparty.controller.middleware.EventMiddleware;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,30 +15,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myparty.dto.EventDTO;
-import com.myparty.service.EventService;
 
 @RestController
 @RequestMapping("/api/event")
 public class EventController {
 
     @Autowired
-    private EventService eventService;
+    private EventMiddleware middleware;
 
     @GetMapping
-    private ResponseEntity<List<EventDTO>> getEvents() {
-        return ResponseEntity.ok(eventService.getEvents());
+    public ResponseEntity<List<EventDTO>> getEvents() {
+        return ResponseEntity.ok(middleware.getEvents());
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    private ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventDTO) {
-        eventService.saveEvent(eventDTO);
-        return ResponseEntity.ok(eventDTO);
+    public void persistEvent(@RequestBody EventDTO eventDTO) {        
+        middleware.createEvent(eventDTO);
     }
 
-//    @GetMapping("/{id}")
-//    private ResponseEntity<EventDTO> getEventById(@PathVariable("id") Long id) {
-//        return ResponseEntity.ok(eventService.getEventById(id).);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<EventDTO> getEventById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(middleware.getEventById(id));
+    }
 
 }

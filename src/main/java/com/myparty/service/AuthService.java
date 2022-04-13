@@ -1,5 +1,6 @@
 package com.myparty.service;
 
+import com.myparty.controller.middleware.UserMiddleware;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.myparty.dto.LoginDTO;
 import com.myparty.dto.TokenDTO;
+import com.myparty.dto.UserWithoutPasswordDTO;
+import com.myparty.enums.UserSearchEnum;
 import com.myparty.exception.MismatchedPasswordException;
 import com.myparty.model.UserProfile;
 import com.myparty.security.CachedTokens;
@@ -27,13 +30,16 @@ public class AuthService implements UserDetailsService {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserMiddleware userMiddleware;
 
     @Autowired
     private JWTService jwtService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<UserProfile> optAccount = userService.getUserStartsWith("username", username);
+        List<UserProfile> optAccount = userService.getUserStartsWith(UserSearchEnum.USERNAME, username);
         if (!optAccount.isEmpty()) {
             UserProfile account = optAccount.get(0);
             return User.builder()
@@ -63,7 +69,9 @@ public class AuthService implements UserDetailsService {
     public TokenDTO getNewToken(UserDetails user) {
         String username = user.getUsername();
         TokenDTO tokenDTO = new TokenDTO();
-        tokenDTO.setUsername(username);
+        
+        UserWithoutPasswordDTO userStartsWith = userMiddleware.getUserByUsername(username);
+        tokenDTO.setUser(userStartsWith);
 
         String token = jwtService.createToken(username);
         CachedTokens.add(token);
@@ -76,7 +84,7 @@ public class AuthService implements UserDetailsService {
         Claims claims = jwtService.validateToken(token);
         TokenDTO tokenDTO = new TokenDTO();
         tokenDTO.setToken(token);
-        tokenDTO.setUsername(claims.getSubject());
+        tokenDTO.setUser(userMiddleware.getUserByUsername(claims.getSubject()));
         return tokenDTO;
     }
 }

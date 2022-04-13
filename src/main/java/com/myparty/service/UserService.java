@@ -1,15 +1,11 @@
 package com.myparty.service;
 
+import com.myparty.enums.UserSearchEnum;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.myparty.dto.UserDTO;
 import com.myparty.exception.UserException;
 import com.myparty.model.UserProfile;
 import com.myparty.repository.UserRepository;
@@ -18,25 +14,10 @@ import com.myparty.repository.UserRepository;
 public class UserService {
 
     @Autowired
-    private PasswordEncoder encoder;
-
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ModelMapper mapper;
-
-    public UserDTO persistUser(UserDTO userDTO) {
-        UserProfile user = mapper.map(userDTO, UserProfile.class);
-        user.setPassword(encoder.encode(user.getPassword()));
-        persistUser(user);
-        userDTO.setId(user.getId());
-        return userDTO;
-    }
-
-    public UserProfile persistUser(UserProfile user) {
+    public void persistUser(UserProfile user) {
         userRepository.save(user);
-        return user;
     }
     
     public List<UserProfile> getUsersByExample(UserProfile accountExample) {
@@ -54,23 +35,23 @@ public class UserService {
 
     public void checkUsernameEmailAccount(String username, String email) {
         // Check if username already exists
-        List<UserDTO> existUsername = getUsersByExample(UserProfile.username(username)).stream().map(a -> mapper.map(a, UserDTO.class)).collect(Collectors.toList());
+        List<UserProfile> existUsername = getUsersByExample(UserProfile.username(username));
         if (!existUsername.isEmpty()) {
             throw new UserException.UsernameExistException(username);
         }
 
         // Check if email already exists
-        List<UserDTO> existEmail = getUsersByExample(UserProfile.email(email)).stream().map(a -> mapper.map(a, UserDTO.class)).collect(Collectors.toList());
+        List<UserProfile> existEmail = getUsersByExample(UserProfile.email(email));
         if (!existEmail.isEmpty()) {
             throw new UserException.EmailExistException(email);
         }
     }
 
-    public List<UserProfile> getUserStartsWith(String attr, String value) {
+    public List<UserProfile> getUserStartsWith(UserSearchEnum attr, String value) {
         switch (attr) {
-            case "email":
+            case EMAIL:
                 return userRepository.findByEmailStartsWith(value);
-            case "username":
+            case USERNAME:
                 return userRepository.findByUsername(value);
             default:
                 return null;

@@ -1,5 +1,6 @@
 package com.myparty.controller;
 
+import com.myparty.controller.middleware.HouseMiddleware;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,37 +17,34 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myparty.dto.HouseDTO;
-import com.myparty.service.HouseService;
-
 
 @RestController
 @RequestMapping("/api/house")
 public class HouseController {
 
-	@Autowired
-	private HouseService houseService;
+    @Autowired
+    private HouseMiddleware middleware;
 
-	@GetMapping
-	private ResponseEntity<List<HouseDTO>> getHousesById(@RequestParam Long[] id) throws Exception {	
-		return ResponseEntity.ok(houseService.getHouses(id));			
-	}
-	
-	@GetMapping("/all")
-	private ResponseEntity<List<HouseDTO>> getHouses() throws Exception {	
-		return ResponseEntity.ok(houseService.getHouses());			
-	}
-	
-	@PostMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
-	private ResponseEntity<HouseDTO> persistHouse(@RequestBody HouseDTO houseDTO) throws Exception {		
-		houseService.persistHouse(houseDTO);
-		return ResponseEntity.status(HttpStatus.CREATED).body(houseDTO);			
-	}
-	
-	@DeleteMapping("/{id}")
-	@ResponseStatus(code = HttpStatus.OK)
-	private void deleteHouse(@PathVariable("id") Long id) throws Exception {
-		houseService.deleteHouse(id);			
-	}
-	
+    @GetMapping("/{id}")
+    public ResponseEntity<HouseDTO> getHousesById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(middleware.getHousesById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<HouseDTO>> getHouses() throws Exception {
+        return ResponseEntity.ok(middleware.getHouses());
+    }
+
+    @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public void persistHouse(@RequestBody HouseDTO houseDTO) throws Exception {
+        middleware.persistHouse(houseDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void deleteHouse(@PathVariable("id") Long id) throws Exception {
+        middleware.deleteHouse(id);
+    }
+
 }

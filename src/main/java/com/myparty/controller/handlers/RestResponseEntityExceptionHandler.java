@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.myparty.exception.UserException;
 import com.myparty.exception.AuthException;
+import com.myparty.exception.NoValueFoundException;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler
@@ -25,24 +26,24 @@ public class RestResponseEntityExceptionHandler
   }
 
   @ExceptionHandler(value = { PSQLException.class })
-  protected ResponseEntity<Object> sqlException(RuntimeException ex, WebRequest request) {
+  protected ResponseEntity<Object> conflict(RuntimeException ex, WebRequest request) {
     JSONObject json = new JSONObject();
     json.put("error", ex.getMessage());
     return handleExceptionInternal(ex, json.toString(), new HttpHeaders(), HttpStatus.CONFLICT, request);
   }
 
-  @ExceptionHandler(value = { UserException.class })
-  protected ResponseEntity<Object> saveAccountExceptionHandler(RuntimeException ex, WebRequest request) {
+  @ExceptionHandler(value = { UserException.class, AuthException.BadCredentialException.class })
+  protected ResponseEntity<Object> unauthorized(RuntimeException ex, WebRequest request) {
     JSONObject json = new JSONObject();
     json.put("error", ex.getMessage());
     return handleExceptionInternal(ex, json.toString(), new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
   }
 
-  @ExceptionHandler(value = { AuthException.BadCredentialException.class })
-  protected ResponseEntity<Object> authExceptionHandler(RuntimeException ex, WebRequest request) {
+  @ExceptionHandler(value = { NoValueFoundException.class })
+  protected ResponseEntity<Object> notFound(RuntimeException ex, WebRequest request) {
     JSONObject json = new JSONObject();
     json.put("error", ex.getMessage());
-    return handleExceptionInternal(ex, json.toString(), new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+    return handleExceptionInternal(ex, json.toString(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
   }
 
 }

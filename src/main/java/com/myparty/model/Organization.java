@@ -1,5 +1,6 @@
 package com.myparty.model;
 
+import com.myparty.annotations.DTO;
 import com.myparty.dto.OrganizationDTO;
 import java.util.List;
 
@@ -15,10 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 @Data
 @Entity
+@DTO(OrganizationDTO.class)
 public class Organization {
 
     @Id
@@ -31,10 +32,7 @@ public class Organization {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "organization_user_fk"))
     private UserProfile user;
 
-    @OneToMany(mappedBy = "organization", targetEntity = Organizer.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     private List<Organizer> organizers;
-
-    public OrganizationDTO dto(ModelMapper mapper) {
-        return mapper.map(this, OrganizationDTO.class);
-    }
+        
 }

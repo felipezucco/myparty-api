@@ -14,31 +14,30 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myparty.dto.LocalDTO;
+import com.myparty.model.Local;
 import com.myparty.service.LocalService;
 
 @RestController
 @RequestMapping("/api/local")
-public class LocalController {
+public class LocalController extends RootController {
 
-	@Autowired
-	private LocalService localService;
-	
-	@GetMapping
-	private ResponseEntity<List<LocalDTO>> getLocals() throws Exception {	
-		List<LocalDTO> localsDTO = localService.getLocals(); 
-		return ResponseEntity.ok(localsDTO);			
-	}
-	
-	@PostMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
-	private ResponseEntity<LocalDTO> createLocal(@RequestBody LocalDTO local) throws Exception {
-		localService.saveLocal(local);
-		return ResponseEntity.status(HttpStatus.CREATED).body(local);			
-	}
-	
-	@GetMapping(value = "/{id}")
-	private ResponseEntity<LocalDTO> getLocal(@PathVariable("id") Long id) {
-		return ResponseEntity.ok(localService.getLocalById(id));
-	}		
-	
+    @Autowired
+    private LocalService localService;
+
+    @GetMapping
+    public ResponseEntity<List<LocalDTO>> getLocals() throws Exception {
+        return ResponseEntity.ok(data.convert(localService.getLocals()));
+    }
+
+    @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public void persistLocal(@RequestBody LocalDTO localDTO) throws Exception {
+        localService.persistLocal(data.convert(localDTO));
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<LocalDTO> getLocal(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(data.convert(localService.getLocalById(id)));
+    }
+
 }

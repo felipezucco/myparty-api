@@ -18,23 +18,23 @@ import com.myparty.service.AuthService;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-	@Autowired
-	private AuthService authService;
+    @Autowired
+    private AuthService authService;
 
-	@PostMapping
-	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-		try {
-			UserDetails user = authService.login(loginDTO);
-			return ResponseEntity.ok(authService.getNewToken(user));
-		} catch (Exception e) {
-			throw new AuthException.BadCredentialException();
-		}
-	}
+    @PostMapping
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+        try {
+            UserDetails user = authService.login(loginDTO);
+            return ResponseEntity.ok(authService.getNewToken(user));
+        } catch (Exception e) {
+            throw new AuthException.BadCredentialException();
+        }
+    }
 
-	@PostMapping("/recover")
-	public ResponseEntity<?> recoverAuth(@RequestBody TokenDTO token) {
-		TokenDTO tokenDTO = authService.validateToken(token.getToken());
-		return ResponseEntity.status(HttpStatus.OK).body(tokenDTO);
-	}
+    @PostMapping("/recover")
+    public ResponseEntity<?> recoverAuth(@RequestBody TokenDTO token) {
+        TokenDTO tokenDTO = authService.validateToken(token.getToken());
+        return ResponseEntity.status(HttpStatus.OK).body(tokenDTO);
+    }
 
 }

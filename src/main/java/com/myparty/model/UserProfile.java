@@ -1,6 +1,8 @@
 package com.myparty.model;
 
+import com.myparty.annotations.DTO;
 import com.myparty.dto.UserDTO;
+import com.myparty.dto.UserWithoutPasswordDTO;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,6 @@ import com.myparty.enums.RoleEnum;
 import java.io.Serializable;
 
 import lombok.Data;
-import static org.modelmapper.Converters.Collection.map;
 import org.modelmapper.ModelMapper;
 
 @Data
@@ -23,6 +24,7 @@ import org.modelmapper.ModelMapper;
     @UniqueConstraint(columnNames = "username", name = "user_username_uk"),
     @UniqueConstraint(columnNames = "email", name = "user_email_uk")
 })
+@DTO(UserWithoutPasswordDTO.class)
 public class UserProfile implements Serializable {
     
     @Id
@@ -41,6 +43,15 @@ public class UserProfile implements Serializable {
     @Column(name = "role_number")
     private RoleEnum role = RoleEnum.USER;
 
+    public static UserProfile builder() {
+        return new UserProfile();
+    }
+    
+    public UserProfile id(long id) {
+        this.setId(id);
+        return this;
+    }
+    
     public static UserProfile username(String username) {
         UserProfile userProfile = new UserProfile();
         userProfile.setUsername(username);
@@ -51,10 +62,6 @@ public class UserProfile implements Serializable {
         UserProfile userProfile = new UserProfile();
         userProfile.setEmail(email);
         return userProfile;
-    }
-
-    public UserDTO toDTO(ModelMapper map) {
-        return map.map(this, UserDTO.class);
     }
     
 }
