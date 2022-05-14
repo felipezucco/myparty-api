@@ -1,7 +1,7 @@
 package com.myparty.model;
 
-import com.myparty.annotations.DTO;
-import com.myparty.dto.OrganizerDTO;
+import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.OrganizerConverter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -14,13 +14,12 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.myparty.enums.RoleEnum;
-import javax.persistence.CascadeType;
 
 import lombok.Data;
 
 @Data
 @Entity
-@DTO(OrganizerDTO.class)
+@DataConverterType(OrganizerConverter.class)
 public class Organizer {
 
     @Id

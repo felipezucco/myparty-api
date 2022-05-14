@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.myparty.dto.LoginDTO;
 import com.myparty.dto.TokenDTO;
 import com.myparty.dto.UserWithoutPasswordDTO;
+import com.myparty.enums.RoleEnum;
 import com.myparty.enums.UserSearchEnum;
 import com.myparty.exception.MismatchedPasswordException;
 import com.myparty.model.UserProfile;
@@ -45,7 +46,7 @@ public class AuthService implements UserDetailsService {
             return User.builder()
                     .username(account.getUsername())
                     .password(account.getPassword())
-                    .roles(account.getRole().name())
+                    .roles(RoleEnum.USER.name())
                     .build();
         } else {
             throw new UsernameNotFoundException("Login não encontrado!");

@@ -1,11 +1,11 @@
 package com.myparty.dto;
 
-import com.myparty.annotations.DTO;
 import com.myparty.model.Event;
 import lombok.Data;
+import com.myparty.annotations.DataConverterType;
 
 @Data
-@DTO(Event.class)
+@DataConverterType(Event.class)
 public class EventDTO {
 
     private Long id;

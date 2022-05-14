@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myparty.dto.OrganizationDTO;
-import com.myparty.dto.OrganizerDTO;
+import com.myparty.dto.organizer.OrganizerDTO;
 import com.myparty.controller.middleware.OrganizationMiddleware;
 import com.myparty.dto.UserWithoutPasswordDTO;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/org")
@@ -34,6 +35,11 @@ public class OrganizationController {
     public ResponseEntity<OrganizationDTO> getOrganizationById(@PathVariable Long id) {
         return ResponseEntity.ok(middleware.getOrganizationById(id));
     }
+    
+    /*@GetMapping("/s");;
+    public ResponseEntity<?> getOrganizationByBatch(@RequestParam String key, @RequestParam String value) {
+        return ResponseEntity.ok(middleware.getOrganizationById(id));
+    }*/
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)

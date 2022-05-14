@@ -1,11 +1,11 @@
 package com.myparty.dto;
 
-import com.myparty.annotations.DTO;
 import com.myparty.model.Local;
 import lombok.Data;
+import com.myparty.annotations.DataConverterType;
 
 @Data
-@DTO(Local.class)
+@DataConverterType(Local.class)
 public class LocalDTO {
 
     private Long id;

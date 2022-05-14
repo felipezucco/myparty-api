@@ -11,23 +11,23 @@ import com.myparty.service.HouseService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HouseMiddleware extends RootController {
+public class HouseMiddleware extends RootMiddleware {
 
     @Autowired
     private HouseService houseService;
 
     public HouseDTO getHousesById(Long id) {
-        return data.convert(houseService.getHouseById(id));
+        return convert(houseService.getHouseById(id));
     }
 
     public List<HouseDTO> getHouses() throws Exception {
-        return data.convert(houseService.getHouses());
+        return convert(houseService.getHouses());
     }
 
     public HouseDTO persistHouse(HouseDTO houseDTO) throws Exception {
-        House house = data.convert(houseDTO);
+        House house = convert(houseDTO);
         houseService.persistHouse(house);
-        return data.convert(house);
+        return convert(house);
     }
 
     public void deleteHouse(Long id) throws Exception {

@@ -1,6 +1,5 @@
 package com.myparty.model;
 
-import com.myparty.annotations.DTO;
 import com.myparty.dto.LocalDTO;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +9,11 @@ import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
+import com.myparty.annotations.DataConverterType;
 
 @Data
 @Entity
-@DTO(LocalDTO.class)
+@DataConverterType(LocalDTO.class)
 public class Local {
 
     @Id

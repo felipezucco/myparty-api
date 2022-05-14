@@ -1,9 +1,7 @@
 package com.myparty.model;
 
-import com.myparty.annotations.DTO;
-import com.myparty.dto.UserDTO;
-import com.myparty.dto.UserWithoutPasswordDTO;
-import javax.persistence.Column;
+import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.UserWithoutPasswordConverter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,11 +10,9 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.myparty.enums.RoleEnum;
 import java.io.Serializable;
 
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 @Data
 @Entity
@@ -24,7 +20,7 @@ import org.modelmapper.ModelMapper;
     @UniqueConstraint(columnNames = "username", name = "user_username_uk"),
     @UniqueConstraint(columnNames = "email", name = "user_email_uk")
 })
-@DTO(UserWithoutPasswordDTO.class)
+@DataConverterType(UserWithoutPasswordConverter.class)
 public class UserProfile implements Serializable {
     
     @Id
@@ -40,10 +36,7 @@ public class UserProfile implements Serializable {
 
     private String email;
 
-    @Column(name = "role_number")
-    private RoleEnum role = RoleEnum.USER;
-
-    public static UserProfile builder() {
+    public UserProfile builder() {
         return new UserProfile();
     }
     

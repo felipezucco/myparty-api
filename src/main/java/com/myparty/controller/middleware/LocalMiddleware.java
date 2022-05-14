@@ -12,24 +12,24 @@ import com.myparty.service.LocalService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LocalMiddleware extends RootController {
+public class LocalMiddleware extends RootMiddleware {
 
     @Autowired
     private LocalService localService;
 
     @GetMapping
     public List<LocalDTO> getLocals() throws Exception {
-        return data.convert(localService.getLocals());
+        return convert(localService.getLocals());
     }
 
-    public LocalDTO createLocal(LocalDTO localDTO) throws Exception {
-        Local local = data.convert(localDTO);
+    public LocalDTO persistLocal(LocalDTO localDTO) throws Exception {
+        Local local = convert(localDTO);
         localService.persistLocal(local);
-        return data.convert(local);
+        return convert(local);
     }
 
     public LocalDTO getLocal(Long id) {
-        return data.convert(localService.getLocalById(id));
+        return convert(localService.getLocalById(id));
     }
 
 }

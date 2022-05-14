@@ -1,18 +1,18 @@
 package com.myparty.dto;
 
-import com.myparty.annotations.DTO;
-import com.myparty.model.Organization;
+import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.OrganizationConverter;
+import com.myparty.dto.organizer.OrganizerWithoutOrganizationDTO;
 import java.util.List;
 
 import lombok.Data;
 
 @Data
-@DTO(Organization.class)
+@DataConverterType(value = OrganizationConverter.class, dto = true)
 public class OrganizationDTO {
 
     private Long id;
     private String name;
-    private Long accountId;
-    private List<OrganizerDTO> organizers;   
+    private List<OrganizerWithoutOrganizationDTO> organizers;   
 
 }

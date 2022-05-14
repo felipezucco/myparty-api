@@ -1,12 +1,12 @@
 package com.myparty.dto;
 
-import com.myparty.annotations.DTO;
-import com.myparty.model.UserProfile;
 import java.io.Serializable;
 import lombok.Data;
+import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.UserWithoutPasswordConverter;
 
- @Data
-@DTO(UserProfile.class)
+@Data
+@DataConverterType(value = UserWithoutPasswordConverter.class, dto = true)
 public class UserWithoutPasswordDTO implements Serializable {
     
     private Long id;

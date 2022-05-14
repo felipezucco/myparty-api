@@ -1,12 +1,12 @@
 package com.myparty.dto;
 
-import com.myparty.annotations.DTO;
-import com.myparty.model.UserProfile;
 import java.io.Serializable;
 import lombok.Data;
+import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.UserConverter;
 
- @Data
-@DTO(UserProfile.class)
+@Data
+@DataConverterType(value = UserConverter.class, dto = true)
 public class UserDTO implements Serializable {
     
     private Long id;

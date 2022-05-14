@@ -18,22 +18,22 @@ import com.myparty.service.EventService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EventMiddleware extends RootController {
+public class EventMiddleware extends RootMiddleware {
 
     @Autowired
     private EventService eventService;
 
     public List<EventDTO> getEvents() {
-        return data.convert(eventService.getEvents());
+        return convert(eventService.getEvents());
     }
 
     public EventDTO createEvent(EventDTO eventDTO) {
-        Event event = eventService.saveEvent(data.convert(eventDTO));
-        return data.convert(event);
+        Event event = eventService.saveEvent(convert(eventDTO));
+        return convert(event);
     }
 
     public EventDTO getEventById(Long id) {
-        return data.convert(eventService.getEventById(id));
+        return convert(eventService.getEventById(id));
     }
 
 }

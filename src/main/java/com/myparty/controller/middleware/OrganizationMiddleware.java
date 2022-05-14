@@ -4,9 +4,8 @@
  */
 package com.myparty.controller.middleware;
 
-import com.myparty.controller.RootController;
 import com.myparty.dto.OrganizationDTO;
-import com.myparty.dto.OrganizerDTO;
+import com.myparty.dto.organizer.OrganizerDTO;
 import com.myparty.dto.UserWithoutPasswordDTO;
 import com.myparty.model.Organization;
 import com.myparty.model.Organizer;
@@ -17,41 +16,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-@Service
 /*Rule between controller and service layer used to converter data*/
-public class OrganizationMiddleware extends RootController {
+@Service
+public class OrganizationMiddleware extends RootMiddleware {
 
     @Autowired
     private OrganizationService organizationService;
     
     public List<OrganizationDTO> getOrganizationsDTO() {
         List<Organization> organizations = organizationService.getOrganizations();        
-        return data.convert(organizations);
+        return convert(organizations);
     }
     
     public OrganizationDTO getOrganizationById(Long id) {
-        return data.convert(organizationService.getOrganizationById(id));
+        return convert(organizationService.getOrganizationById(id));
     }
 
     public OrganizationDTO persistOrganization(OrganizationDTO organizationDTO) {
-        Organization org = data.convert(organizationDTO);
+        Organization org = convert(organizationDTO);
         organizationService.persistOrganization(org);
-        return data.convert(org);
+        return convert(org);
     }
 
     public List<OrganizerDTO> getOrganizers() {
-        return data.convert(organizationService.getOrganizers());
+        return convert(organizationService.getOrganizers());
     }
 
     public OrganizerDTO persistOrganizer(OrganizerDTO organizerDTO) {
-        Organizer org = data.convert(organizerDTO);
+        Organizer org = convert(organizerDTO);
         organizationService.persistOrganizer(org);
-        return data.convert(org);
+        return convert(org);
     }
     
     public List<OrganizerDTO> getOrganizerByUser(UserWithoutPasswordDTO userDTO) {
-        UserProfile user = data.convert(userDTO);
-        return data.convert(organizationService.getOrganizerByUser(user));
+        UserProfile user = convert(userDTO);
+        List<Organizer> organizerByUser = organizationService.getOrganizerByUser(user);
+         List<OrganizerDTO> convert = convert(organizerByUser);
+        return convert;
     }
     
 }

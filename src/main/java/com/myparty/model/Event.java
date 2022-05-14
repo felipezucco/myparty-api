@@ -1,6 +1,5 @@
 package com.myparty.model;
 
-import com.myparty.annotations.DTO;
 import com.myparty.dto.EventDTO;
 import java.util.Date;
 
@@ -18,10 +17,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.Data;
+import com.myparty.annotations.DataConverterType;
 
 @Data
 @Entity
-@DTO(EventDTO.class)
+@DataConverterType(EventDTO.class)
 public class Event {
 
     @Id

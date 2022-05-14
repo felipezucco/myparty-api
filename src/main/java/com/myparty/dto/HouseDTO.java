@@ -1,13 +1,13 @@
 package com.myparty.dto;
 
-import com.myparty.annotations.DTO;
 import com.myparty.model.House;
 import java.util.List;
 
 import lombok.Data;
+import com.myparty.annotations.DataConverterType;
 
 @Data
-@DTO(House.class)
+@DataConverterType(House.class)
 public class HouseDTO {
 
     private Long id;

@@ -1,6 +1,5 @@
 package com.myparty.model;
 
-import com.myparty.annotations.DTO;
 import com.myparty.dto.HouseDTO;
 import java.util.List;
 
@@ -16,10 +15,11 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
+import com.myparty.annotations.DataConverterType;
 
 @Entity
 @Data
-@DTO(HouseDTO.class)
+@DataConverterType(HouseDTO.class)
 public class House {
 
     @Id
