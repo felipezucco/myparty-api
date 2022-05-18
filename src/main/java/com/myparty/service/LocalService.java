@@ -27,4 +27,8 @@ public class LocalService extends RootService {
         Optional<Local> local = localRepository.findById(id);
         return local.orElseGet(null);
     }
+    
+    public List<Local> getLocalsByOrganizationId(Long id) {
+        return localRepository.findByOrganizationId(id);
+    }
 }

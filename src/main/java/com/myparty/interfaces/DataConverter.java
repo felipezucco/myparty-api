@@ -4,9 +4,6 @@
  */
 package com.myparty.interfaces;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Felipe Zucco

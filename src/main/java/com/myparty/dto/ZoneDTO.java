@@ -1,16 +1,16 @@
 package com.myparty.dto;
 
-import com.myparty.model.Zone;
+import com.myparty.dto.house.HouseDTO;
 import lombok.Data;
 import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.ZoneConverter;
 
 @Data
-@DataConverterType(Zone.class)
+@DataConverterType(value = ZoneConverter.class, dto = true)
 public class ZoneDTO {
 
     private Long id;
     private String name;
     private Double size;
-    private HouseDTO house;
 
 }

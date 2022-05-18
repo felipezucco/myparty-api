@@ -1,11 +1,11 @@
 package com.myparty.dto;
 
-import com.myparty.model.Local;
 import lombok.Data;
 import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.LocalConverter;
 
 @Data
-@DataConverterType(Local.class)
+@DataConverterType(value = LocalConverter.class, dto = true)
 public class LocalDTO {
 
     private Long id;
@@ -18,5 +18,6 @@ public class LocalDTO {
     private String complement;
     private Double coordenateX;
     private Double coordenateY;
+    private OrganizationDTO organization;
 
 }

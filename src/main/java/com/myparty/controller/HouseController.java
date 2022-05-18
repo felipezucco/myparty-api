@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.myparty.dto.HouseDTO;
+import com.myparty.dto.house.HouseDTO;
 
 @RestController
 @RequestMapping("/api/house")

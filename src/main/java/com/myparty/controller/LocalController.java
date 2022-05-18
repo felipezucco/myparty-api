@@ -38,5 +38,10 @@ public class LocalController {
     public ResponseEntity<LocalDTO> getLocal(@PathVariable("id") Long id) {
         return ResponseEntity.ok(localMiddleware.getLocal(id));
     }
+    
+    @GetMapping(value = "/org/{id}")
+    public ResponseEntity<List<LocalDTO>> getLocalsByOrganizationId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(localMiddleware.getLocalsByOrganizationId(id));
+    }
 
 }

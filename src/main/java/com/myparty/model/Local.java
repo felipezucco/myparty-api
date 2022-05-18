@@ -1,6 +1,5 @@
 package com.myparty.model;
 
-import com.myparty.dto.LocalDTO;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +9,15 @@ import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
 import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.LocalConverter;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 
 @Data
 @Entity
-@DataConverterType(LocalDTO.class)
+@DataConverterType(LocalConverter.class)
 public class Local {
 
     @Id
@@ -31,5 +35,11 @@ public class Local {
     private Integer number;
     private Double coordenateX;
     private Double coordenateY;
+    
+    @ManyToOne
+    @JoinTable(name = "local_organization", 
+            joinColumns = @JoinColumn(name = "local_id"), foreignKey = @ForeignKey(name = "local_organization_fk"),
+            inverseJoinColumns = @JoinColumn(name = "organization_id"), inverseForeignKey = @ForeignKey(name = "organization_local_fk"))
+    private Organization organization;
 
 }

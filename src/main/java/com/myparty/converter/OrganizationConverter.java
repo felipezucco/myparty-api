@@ -8,6 +8,7 @@ import com.myparty.dto.OrganizationDTO;
 import com.myparty.dto.organizer.OrganizerWithoutOrganizationDTO;
 import com.myparty.interfaces.DataConverter;
 import com.myparty.model.Organization;
+import com.myparty.model.Organizer;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,8 +38,8 @@ public class OrganizationConverter implements DataConverter<Organization, Organi
         //organization.setOrganizers(organizers);
         
         OrganizerWithoutOrganizationConverter organizationConverter = new OrganizerWithoutOrganizationConverter();
-        List<OrganizerWithoutOrganizationDTO> organizerDTOs = organization.getOrganizers().stream().map(org -> organizationConverter.convert(org)).collect(Collectors.toList());
-        dto.setOrganizers(organizerDTOs);
+        List<Organizer> organizers = dto.getOrganizers().stream().map(org -> organizationConverter.revert(org)).collect(Collectors.toList());
+        organization.setOrganizers(organizers);
         return organization;
     }   
     

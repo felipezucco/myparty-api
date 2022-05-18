@@ -18,49 +18,48 @@ import com.myparty.controller.handlers.RestAuthenticationEntryPoint;
 import com.myparty.exception.ExpiratedTokenException;
 import com.myparty.service.AuthService;
 
-
 public class JWTAuthFilter extends OncePerRequestFilter {
 
-	private JWTService jwtService;
-	private AuthService authService;
+    private JWTService jwtService;
+    private AuthService authService;
 
-	@Autowired
-	private RestAuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    private RestAuthenticationEntryPoint authenticationEntryPoint;
 
-	public JWTAuthFilter(JWTService jwtService, AuthService authService) {
-		super();
-		this.jwtService = jwtService;
-		this.authService = authService;
-	}
+    public JWTAuthFilter(JWTService jwtService, AuthService authService) {
+        super();
+        this.jwtService = jwtService;
+        this.authService = authService;
+    }
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-		String authorization = request.getHeader("Authorization");
-		String token = JWTService.checkToken(authorization);
-		
-		boolean validToken = false;
-		if (token != null && !request.getRequestURI().contains("/auth")) {
-			try {
-				validToken = !jwtService.validateToken(token).isEmpty();
-			} catch (Exception e) {
-				SecurityContextHolder.clearContext();
-				authenticationEntryPoint.commence(request, response, new ExpiratedTokenException("Token inválido", e));
-				return;
-			}
+        String authorization = request.getHeader("Authorization");
+        String token = JWTService.checkToken(authorization);
 
-			if (validToken) {
-				String username = jwtService.getUsernameFromToken(token);
-				UserDetails user = authService.loadUserByUsername(username);
-				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
-						user.getAuthorities());
-				auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				
-				SecurityContextHolder.getContext().setAuthentication(auth);
-			}
-		}
+        boolean validToken = false;
+        if (token != null && !request.getRequestURI().contains("/auth")) {
+            try {
+                validToken = !jwtService.validateToken(token).isEmpty();
+            } catch (Exception e) {
+                SecurityContextHolder.clearContext();
+                authenticationEntryPoint.commence(request, response, new ExpiratedTokenException("Token inválido", e));
+                return;
+            }
 
-		filterChain.doFilter(request, response);
-	}
+            if (validToken) {
+                String username = jwtService.getUsernameFromToken(token);
+                UserDetails user = authService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
+                        user.getAuthorities());
+                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+        }
+
+        filterChain.doFilter(request, response);
+    }
 }

@@ -31,5 +31,9 @@ public class LocalMiddleware extends RootMiddleware {
     public LocalDTO getLocal(Long id) {
         return convert(localService.getLocalById(id));
     }
+    
+    public List<LocalDTO> getLocalsByOrganizationId(Long id) {
+        return convert(localService.getLocalsByOrganizationId(id));
+    }
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.myparty.dto.HouseDTO;
+import com.myparty.dto.house.HouseDTO;
 import com.myparty.model.House;
 import com.myparty.service.HouseService;
 import org.springframework.stereotype.Service;

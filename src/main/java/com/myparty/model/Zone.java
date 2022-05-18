@@ -1,6 +1,5 @@
 package com.myparty.model;
 
-import com.myparty.dto.ZoneDTO;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -13,10 +12,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
 import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.ZoneConverter;
 
 @Data
 @Entity
-@DataConverterType(ZoneDTO.class)
+@DataConverterType(ZoneConverter.class)
 public class Zone {
 
     @Id
