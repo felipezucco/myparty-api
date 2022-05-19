@@ -24,7 +24,6 @@ public class EventConverter implements DataConverter<Event, EventDTO>{
         dto.setDate(DateFormat.format(DateFormatEnum.ptBR, entity.getDate()));
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        dto.setOrganization(converter.convert(entity.getOrganization()));
         dto.setHouse(converter.convert(entity.getHouse()));
         return dto;
     }
@@ -34,7 +33,6 @@ public class EventConverter implements DataConverter<Event, EventDTO>{
         Event event = new Event();
         event.setDate(DateFormat.format(DateFormatEnum.Default, dto.getDate()));
         event.setId(dto.getId());
-        event.setOrganization(converter.convert(dto.getOrganization()));
         event.setHouse(converter.convert(dto.getHouse()));
         event.setName(dto.getName());
         return event;

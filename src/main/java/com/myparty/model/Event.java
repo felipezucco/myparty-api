@@ -36,8 +36,4 @@ public class Event {
     @OneToOne(fetch = FetchType.LAZY)
     private House house;
 
-    @ManyToOne
-    @JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "event_organization_fk"))
-    private Organization organization;
-
 }

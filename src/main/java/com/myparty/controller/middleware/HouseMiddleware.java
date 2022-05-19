@@ -34,4 +34,8 @@ public class HouseMiddleware extends RootMiddleware {
         houseService.deleteHouse(id);
     }
 
+    public List<HouseDTO> getHousesByOrganizationId(Long id) {
+        return convert(houseService.getHousesByOrganizationId(id));
+    }
+    
 }

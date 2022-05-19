@@ -38,5 +38,10 @@ public class EventController {
     public ResponseEntity<EventDTO> getEventById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(middleware.getEventById(id));
     }
+    
+    @GetMapping("/org/{id}")
+    public ResponseEntity<List<EventDTO>> getEventsByOrganizationId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(middleware.getEventsByOrganizationId(id));
+    }
 
 }

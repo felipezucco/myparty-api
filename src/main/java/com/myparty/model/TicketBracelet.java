@@ -17,14 +17,13 @@ import lombok.Data;
 @Data
 public class TicketBracelet {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	private Integer number;
-	
-	@JoinColumn(name = "ticket_batch_id", foreignKey = @ForeignKey(name = "ticket_brac_ticket_bat_fk"))
-	@ManyToOne(fetch = FetchType.LAZY)
-	private TicketBatch ticketBatch;
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private Integer number;
+
+    @JoinColumn(name = "ticket_batch_id", foreignKey = @ForeignKey(name = "ticket_brac_ticket_bat_fk"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TicketBatch ticketBatch;
+
 }

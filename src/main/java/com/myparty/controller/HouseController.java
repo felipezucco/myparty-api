@@ -46,5 +46,10 @@ public class HouseController {
     public void deleteHouse(@PathVariable("id") Long id) throws Exception {
         middleware.deleteHouse(id);
     }
+    
+    @GetMapping("/org/{id}")
+    public ResponseEntity<List<HouseDTO>> getHousesByOrganizationId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(middleware.getHousesByOrganizationId( id));
+    }
 
 }

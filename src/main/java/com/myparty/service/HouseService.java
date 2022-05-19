@@ -53,4 +53,8 @@ public class HouseService extends RootService {
         houseRepository.deleteById(id);
     }
 
+    public List<House> getHousesByOrganizationId(Long id) {
+        return houseRepository.findHouseByOrganizationId(id);
+    }
+    
 }

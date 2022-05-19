@@ -28,4 +28,8 @@ public class EventService extends RootService {
         return event.orElse(null);
     }
 
+     public List<Event> getEventsByOrganizationId(Long id) {
+        return eventRepository.findEventByOrganizationId(id);
+    }
+    
 }

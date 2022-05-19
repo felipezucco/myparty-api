@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.myparty.enums.RoleEnum;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 
 import lombok.Data;
 
@@ -34,7 +36,7 @@ public class Organizer {
     @Column(name = "role_number")
     private RoleEnum role = RoleEnum.USER;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "organizer_organization_fk"))
     private Organization organization;
 }

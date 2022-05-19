@@ -23,7 +23,7 @@ public class OrganizationService extends RootService {
     private OrganizationRepository organizationRepository;
     
     public void persistOrganization(Organization organization) {
-        organization.getOrganizers().parallelStream().forEach(organizer -> organizer.setOrganization(organization)); //this is necessary to save organization_id 
+        //organization.getOrganizers().parallelStream().forEach(organizer -> organizer.setOrganization(organization)); //this is necessary to save organization_id 
         organizationRepository.save(organization);
     }
 
