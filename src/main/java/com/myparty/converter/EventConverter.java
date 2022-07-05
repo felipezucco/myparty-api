@@ -9,11 +9,13 @@ import com.myparty.enums.DateFormatEnum;
 import com.myparty.interfaces.DataConverter;
 import com.myparty.model.Event;
 import com.myparty.utils.DateFormat;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Felipe Zucco
  */
+@Component
 public class EventConverter implements DataConverter<Event, EventDTO>{
     
     private DataConverterImplement converter = new DataConverterImplement();

@@ -1,4 +1,4 @@
-package com.myparty.model;
+package com.myparty.model.ticket;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

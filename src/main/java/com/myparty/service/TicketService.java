@@ -4,7 +4,7 @@
  */
 package com.myparty.service;
 
-import com.myparty.model.Ticket;
+import com.myparty.model.ticket.Ticket;
 import com.myparty.repository.TicketBatchRepository;
 import com.myparty.repository.TicketRepository;
 import java.util.List;

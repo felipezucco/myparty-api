@@ -1,8 +1,7 @@
-package com.myparty.model;
+package com.myparty.model.ticket;
 
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.TicketBatchConverter;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -18,7 +17,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "ticket_batch")
-@Data
+@Data	
 @DataConverterType(TicketBatchConverter.class)
 public class TicketBatch {
 

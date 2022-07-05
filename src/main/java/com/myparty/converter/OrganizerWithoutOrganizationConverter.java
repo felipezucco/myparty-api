@@ -7,12 +7,14 @@ package com.myparty.converter;
 import com.myparty.dto.organizer.OrganizerDTO;
 import com.myparty.dto.organizer.OrganizerWithoutOrganizationDTO;
 import com.myparty.interfaces.DataConverter;
-import com.myparty.model.Organizer;
+import com.myparty.model.organization.Organizer;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Felipe Zucco
  */
+@Component
 public class OrganizerWithoutOrganizationConverter implements DataConverter<Organizer, OrganizerWithoutOrganizationDTO>{
     
     @Override

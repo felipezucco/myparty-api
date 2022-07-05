@@ -3,6 +3,8 @@ package com.myparty.controller.middleware;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.myparty.dto.UserDTO;
 import com.myparty.dto.UserWithoutPasswordDTO;
@@ -10,15 +12,13 @@ import com.myparty.enums.UserSearchEnum;
 import com.myparty.exception.NoValueFoundException;
 import com.myparty.model.UserProfile;
 import com.myparty.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserMiddleware extends RootMiddleware {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private PasswordEncoder encoder;
 
@@ -41,7 +41,7 @@ public class UserMiddleware extends RootMiddleware {
         List<UserProfile> users = userService.getUserStartsWith(q, v);
         return convert(users);
     }
-            
+
     public List<UserWithoutPasswordDTO> getUserSearch(String q, String v) {
         switch (q.toUpperCase()) {
             case "EMAIL":
@@ -50,11 +50,13 @@ public class UserMiddleware extends RootMiddleware {
                 throw new AssertionError();
         }
     }
-    
+
     public UserWithoutPasswordDTO getUserByUsername(String username) {
-        List<UserProfile> users = userService.getUserStartsWith(UserSearchEnum.USERNAME, username);
-        if (!users.isEmpty()) return convert(users.get(0));
-        else throw new NoValueFoundException();
+        UserProfile user = userService.getUserByUsername(username);
+        if (user != null) {
+			return convert(user);
+		}
+		throw new NoValueFoundException();
     }
 
 }

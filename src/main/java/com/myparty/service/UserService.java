@@ -1,11 +1,13 @@
 package com.myparty.service;
 
-import com.myparty.enums.UserSearchEnum;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.myparty.enums.UserSearchEnum;
 import com.myparty.exception.UserException;
 import com.myparty.model.UserProfile;
 import com.myparty.repository.UserRepository;
@@ -13,48 +15,63 @@ import com.myparty.repository.UserRepository;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    public void persistUser(UserProfile user) {
-        userRepository.save(user);
-    }
-    
-    public List<UserProfile> getUsersByExample(UserProfile accountExample) {
-        Example<UserProfile> example = Example.of(accountExample);
-        return userRepository.findAll(example);
-    }
+	public void persistUser(UserProfile user) {
+		userRepository.save(user);
+	}
 
-    public List<UserProfile> getUsers() {
-        return userRepository.findAll();
-    }
+	public List<UserProfile> getUsersByExample(UserProfile accountExample) {
+		Example<UserProfile> example = Example.of(accountExample);
+		return userRepository.findAll(example);
+	}
 
-    public void deleteUser(Long id) throws IllegalArgumentException {
-        userRepository.deleteById(id);
-    }
+	public List<UserProfile> getUsers() {
+		return userRepository.findAll();
+	}
 
-    public void checkUsernameEmailAccount(String username, String email) {
-        // Check if username already exists
-        List<UserProfile> existUsername = getUsersByExample(UserProfile.username(username));
-        if (!existUsername.isEmpty()) {
-            throw new UserException.UsernameExistException(username);
-        }
+	public UserProfile getUserById(Long id) {
+		return userRepository.getById(id);
+	}
 
-        // Check if email already exists
-        List<UserProfile> existEmail = getUsersByExample(UserProfile.email(email));
-        if (!existEmail.isEmpty()) {
-            throw new UserException.EmailExistException(email);
-        }
-    }
+	public String getNameById(Long id) {
+		UserProfile user = userRepository.getNameById(id);
+		if (Optional.ofNullable(user).isPresent()) {
+			return user.getName();
+		}
 
-    public List<UserProfile> getUserStartsWith(UserSearchEnum attr, String value) {
-        switch (attr) {
-            case EMAIL:
-                return userRepository.findByEmailStartsWith(value);
-            case USERNAME:
-                return userRepository.findByUsername(value);
-            default:
-                return null;
-        }
-    }
+		return null;
+	}
+
+	public void deleteUser(Long id) throws IllegalArgumentException {
+		userRepository.deleteById(id);
+	}
+
+	public void checkUsernameEmailAccount(String username, String email) {
+		// Check if username already exists
+		List<UserProfile> existUsername = getUsersByExample(UserProfile.username(username));
+		if (!existUsername.isEmpty()) {
+			throw new UserException.UsernameExistException(username);
+		}
+
+		// Check if email already exists
+		List<UserProfile> existEmail = getUsersByExample(UserProfile.email(email));
+		if (!existEmail.isEmpty()) {
+			throw new UserException.EmailExistException(email);
+		}
+	}
+
+	public UserProfile getUserByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+
+	public List<UserProfile> getUserStartsWith(UserSearchEnum attr, String value) {
+		switch (attr) {
+		case EMAIL:
+			return userRepository.findByEmailStartsWith(value);
+		default:
+			return null;
+		}
+	}
 }

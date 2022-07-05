@@ -6,12 +6,14 @@ package com.myparty.converter;
 
 import com.myparty.dto.ticket.TicketBatchDTO;
 import com.myparty.interfaces.DataConverter;
-import com.myparty.model.TicketBatch;
+import com.myparty.model.ticket.TicketBatch;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Felipe Zucco
  */
+@Component
 public class TicketBatchConverter implements DataConverter<TicketBatch, TicketBatchDTO>{
 
     @Override

@@ -1,4 +1,4 @@
-package com.myparty.model;
+package com.myparty.model.house;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

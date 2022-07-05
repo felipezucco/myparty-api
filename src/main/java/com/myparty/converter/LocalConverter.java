@@ -7,14 +7,18 @@ package com.myparty.converter;
 import com.myparty.dto.LocalDTO;
 import com.myparty.interfaces.DataConverter;
 import com.myparty.model.Local;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Felipe Zucco
  */
+@Component
 public class LocalConverter implements DataConverter<Local, LocalDTO>{
-    
-    private DataConverterImplement converter = new DataConverterImplement();
+
+    @Autowired
+    private DataConverterImplement converter;
     
     @Override
     public LocalDTO convert(Local entity) {

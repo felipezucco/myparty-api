@@ -1,4 +1,4 @@
-package com.myparty.model;
+package com.myparty.model.organization;
 
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.OrganizerConverter;
@@ -14,8 +14,11 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.myparty.enums.RoleEnum;
+import com.myparty.model.UserProfile;
+
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 
 import lombok.Data;
 
@@ -37,6 +40,9 @@ public class Organizer {
     private RoleEnum role = RoleEnum.USER;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "organizer_organization_fk"))
+    @JoinTable(name = "organization_member",
+            inverseJoinColumns = @JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "organization_organizer_fk")),
+            joinColumns = @JoinColumn(name = "organizer_id", foreignKey = @ForeignKey(name = "organizer_organization_fk"))
+    )
     private Organization organization;
 }

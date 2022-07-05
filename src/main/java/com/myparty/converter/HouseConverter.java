@@ -6,15 +6,18 @@ package com.myparty.converter;
 
 import com.myparty.dto.house.HouseDTO;
 import com.myparty.interfaces.DataConverter;
-import com.myparty.model.House;
 import com.myparty.model.Local;
-import com.myparty.model.Zone;
+import com.myparty.model.house.House;
+import com.myparty.model.house.Zone;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
  *
  * @author Felipe Zucco
  */
+@Component
 public class HouseConverter implements DataConverter<House, HouseDTO>{
 
     private DataConverterImplement converter = new DataConverterImplement();

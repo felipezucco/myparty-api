@@ -1,19 +1,15 @@
 package com.myparty.service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.myparty.dto.ZoneDTO;
-import com.myparty.model.Zone;
+import com.myparty.model.house.Zone;
 import com.myparty.repository.ZoneRepository;
 
 @Service
-public class ZoneService extends RootService {
+public class ZoneService {
 
     @Autowired
     private ZoneRepository zoneRepository;

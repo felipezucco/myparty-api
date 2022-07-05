@@ -9,7 +9,7 @@ import com.myparty.model.Event;
 import com.myparty.repository.EventRepository;
 
 @Service
-public class EventService extends RootService {
+public class EventService {
 
     @Autowired
     private EventRepository eventRepository;

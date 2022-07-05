@@ -1,8 +1,5 @@
 package com.myparty.service;
 
-import com.myparty.controller.middleware.UserMiddleware;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +8,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.myparty.configs.MessagerConfig;
+import com.myparty.controller.middleware.UserMiddleware;
 import com.myparty.dto.LoginDTO;
 import com.myparty.dto.TokenDTO;
 import com.myparty.dto.UserWithoutPasswordDTO;
 import com.myparty.enums.RoleEnum;
-import com.myparty.enums.UserSearchEnum;
 import com.myparty.exception.MismatchedPasswordException;
 import com.myparty.model.UserProfile;
 import com.myparty.security.CachedTokens;
@@ -31,26 +29,27 @@ public class AuthService implements UserDetailsService {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private UserMiddleware userMiddleware;
 
     @Autowired
     private JWTService jwtService;
 
+    @Autowired
+    private MessagerConfig messagerConfig;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<UserProfile> optAccount = userService.getUserStartsWith(UserSearchEnum.USERNAME, username);
-        if (!optAccount.isEmpty()) {
-            UserProfile account = optAccount.get(0);
+        UserProfile account = userService.getUserByUsername(username);
+        if (account != null) {
             return User.builder()
                     .username(account.getUsername())
                     .password(account.getPassword())
                     .roles(RoleEnum.USER.name())
                     .build();
-        } else {
-            throw new UsernameNotFoundException("Login não encontrado!");
         }
+		throw new UsernameNotFoundException("Login não encontrado!");
     }
 
     public UserDetails login(LoginDTO loginDTO) throws Exception {
@@ -59,18 +58,17 @@ public class AuthService implements UserDetailsService {
             boolean match = passwordEncoder.matches(loginDTO.getPassword(), user.getPassword());
             if (match) {
                 return user;
-            } else {
-                throw new MismatchedPasswordException();
             }
+			throw new MismatchedPasswordException();
         } catch (UsernameNotFoundException e) {
             throw e;
         }
     }
 
     public TokenDTO getNewToken(UserDetails user) {
-        String username = user.getUsername();
+    	String username = user.getUsername();
         TokenDTO tokenDTO = new TokenDTO();
-        
+
         UserWithoutPasswordDTO userStartsWith = userMiddleware.getUserByUsername(username);
         tokenDTO.setUser(userStartsWith);
 
@@ -78,6 +76,7 @@ public class AuthService implements UserDetailsService {
         CachedTokens.add(token);
 
         tokenDTO.setToken(token);
+        //messagerConfig.addQueue(username);
         return tokenDTO;
     }
 

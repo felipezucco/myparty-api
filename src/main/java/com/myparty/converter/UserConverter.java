@@ -8,11 +8,13 @@ import com.myparty.dto.UserDTO;
 import com.myparty.dto.UserWithoutPasswordDTO;
 import com.myparty.interfaces.DataConverter;
 import com.myparty.model.UserProfile;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Felipe Zucco
  */
+@Component
 public class UserConverter implements DataConverter<UserProfile, UserDTO>{
 
     @Override

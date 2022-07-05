@@ -6,12 +6,14 @@ package com.myparty.converter;
 
 import com.myparty.dto.ticket.TicketDTO;
 import com.myparty.interfaces.DataConverter;
-import com.myparty.model.Ticket;
+import com.myparty.model.ticket.Ticket;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Felipe Zucco
  */
+@Component
 public class TicketConverter implements DataConverter<Ticket, TicketDTO>{
 
     private DataConverterImplement converter = new DataConverterImplement();

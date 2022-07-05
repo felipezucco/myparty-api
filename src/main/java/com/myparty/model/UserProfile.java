@@ -1,7 +1,7 @@
 package com.myparty.model;
 
-import com.myparty.annotations.DataConverterType;
-import com.myparty.converter.UserWithoutPasswordConverter;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,19 +10,22 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import java.io.Serializable;
+import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.UserWithoutPasswordConverter;
 
 import lombok.Data;
 
+
 @Data
 @Entity
-@Table(uniqueConstraints = {
+@Table(name = "user_profile",
+		uniqueConstraints = {
     @UniqueConstraint(columnNames = "username", name = "user_username_uk"),
     @UniqueConstraint(columnNames = "email", name = "user_email_uk")
 })
 @DataConverterType(UserWithoutPasswordConverter.class)
 public class UserProfile implements Serializable {
-    
+
     @Id
     @GenericGenerator(strategy = "uuid", name = "system-uuid")
     @GeneratedValue(generator = "uuid")
@@ -39,12 +42,12 @@ public class UserProfile implements Serializable {
     public UserProfile builder() {
         return new UserProfile();
     }
-    
+
     public UserProfile id(long id) {
-        this.setId(id);
+        setId(id);
         return this;
     }
-    
+
     public static UserProfile username(String username) {
         UserProfile userProfile = new UserProfile();
         userProfile.setUsername(username);
@@ -56,5 +59,5 @@ public class UserProfile implements Serializable {
         userProfile.setEmail(email);
         return userProfile;
     }
-    
+
 }

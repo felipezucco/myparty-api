@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,6 +23,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataConverterImplement {
 
+    @Autowired
+    private BeanFactory beanFactory;
+
+    public <T> T beanFactory(Class clazz) {
+        return (T) beanFactory.getBean(clazz);
+    }
     public <T> T convert(Object o) {
         if (o instanceof Collection) {
             Collection collection = (Collection) o;
@@ -31,10 +39,11 @@ public class DataConverterImplement {
     }
 
     private <T> T converter(Object o) {
-        try {
+        //try {
             o = initializeAndUnproxy(o);
             DataConverterType dataConverterType = o.getClass().getAnnotation(DataConverterType.class);
-            Object obj = dataConverterType.value().newInstance();
+            Object obj = beanFactory(dataConverterType.value());
+            //Object obj = dataConverterType.value().newInstance();
             if (obj instanceof DataConverter) {
                 DataConverter dataConverter = (DataConverter) obj;
                 if (dataConverterType.dto()) {
@@ -45,10 +54,10 @@ public class DataConverterImplement {
             } else {
                 return null;
             }
-        } catch (InstantiationException | IllegalAccessException ex) {
+        /*} catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(DataConverterImplement.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return null;*/
     }
 
     private <T> T initializeAndUnproxy(T entity) {

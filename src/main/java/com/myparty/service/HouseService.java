@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myparty.exception.NoValueFoundException;
-import com.myparty.model.House;
+import com.myparty.model.house.House;
+import com.myparty.model.house.Zone;
 import com.myparty.repository.HouseRepository;
 
 @Service
-public class HouseService extends RootService {
+public class HouseService {
 
     @Autowired
     private HouseRepository houseRepository;
@@ -26,7 +27,7 @@ public class HouseService extends RootService {
     public void persistHouse(House house) {
         localService.persistLocal(house.getLocal());
         houseRepository.save(house);
-        house.getZones().stream().forEach(zone -> {
+        house.getZones().stream().forEach((Zone zone) -> {
             zone.setHouse(house);
             zoneService.saveZone(zone);
         });

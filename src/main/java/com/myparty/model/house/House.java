@@ -1,4 +1,4 @@
-package com.myparty.model;
+package com.myparty.model.house;
 
 import java.util.List;
 
@@ -13,26 +13,28 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import lombok.Data;
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.HouseConverter;
+import com.myparty.model.Local;
+
+import lombok.Data;
 
 @Entity
 @Data
 @DataConverterType(HouseConverter.class)
 public class House {
 
-    @Id
-    @GenericGenerator(strategy = "uuid", name = "system-uuid")
-    @GeneratedValue(generator = "uuid")
-    private Long id;
-    private String name;
+	@Id
+	@GenericGenerator(strategy = "uuid", name = "system-uuid")
+	@GeneratedValue(generator = "uuid")
+	private Long id;
+	private String name;
 
-    @JoinColumn(name = "local_id", foreignKey = @ForeignKey(name = "house_local_fk"))
-    @OneToOne(fetch = FetchType.LAZY)
-    private Local local;
+	@JoinColumn(name = "local_id", foreignKey = @ForeignKey(name = "house_local_fk"))
+	@OneToOne(fetch = FetchType.LAZY)
+	private Local local;
 
-    @OneToMany(mappedBy = "house")
-    private List<Zone> zones;
+	@OneToMany(mappedBy = "house")
+	private List<Zone> zones;
 
 }

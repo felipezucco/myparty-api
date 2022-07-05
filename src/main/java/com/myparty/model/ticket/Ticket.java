@@ -1,7 +1,9 @@
-package com.myparty.model;
+package com.myparty.model.ticket;
 
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.TicketConverter;
+import com.myparty.model.Event;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;

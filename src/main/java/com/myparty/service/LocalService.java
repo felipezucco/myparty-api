@@ -9,7 +9,7 @@ import com.myparty.model.Local;
 import com.myparty.repository.LocalRepository;
 
 @Service
-public class LocalService extends RootService {
+public class LocalService {
 
     @Autowired
     private LocalRepository localRepository;
