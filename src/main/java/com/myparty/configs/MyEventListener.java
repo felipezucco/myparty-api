@@ -1,8 +1,6 @@
 package com.myparty.configs;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -12,23 +10,18 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.Synchronization;
 
-import com.myparty.model.Authority;
-import com.myparty.model.notification.NotificationAttribute;
+import com.myparty.converter.notification.NotificationSentConverterOld;
 import org.hibernate.Session;
-import org.hibernate.action.internal.EntityInsertAction;
 import org.hibernate.event.service.spi.EventListenerRegistry;
 import org.hibernate.event.spi.*;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.persister.entity.EntityPersister;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.myparty.controller.NotificationController;
-import com.myparty.converter.NotificationConverter;
 import com.myparty.dto.NotificationDTO;
 import com.myparty.interfaces.notification.NotificationListener;
-import com.myparty.manager.OrganizationTools;
 import com.myparty.manager.notification.NotificationTools;
 import com.myparty.model.notification.Notification;
 import com.myparty.service.NotificationService;
@@ -41,18 +34,18 @@ public class MyEventListener implements PostInsertEventListener, PostUpdateEvent
 	private NotificationController notificationController;
 	private ExecutorService nonBlockingService = Executors.newCachedThreadPool();
 	private NotificationTools notificationTools;
-	private NotificationConverter notificationConverter;
+	private NotificationSentConverterOld notificationSentConverter;
 	private NotificationService notificationService;
 
 	private SessionFactoryImpl sessionFactory;
 
 	public MyEventListener(EntityManagerFactory entityManagerFactory, NotificationController notificationController,
-			NotificationTools notificationTools, NotificationConverter notificationConverter, NotificationService notificationService) {
+                           NotificationTools notificationTools, NotificationSentConverterOld notificationSentConverter, NotificationService notificationService) {
 		super();
 		this.entityManagerFactory = entityManagerFactory;
 		this.notificationController = notificationController;
 		this.notificationTools = notificationTools;
-		this.notificationConverter = notificationConverter;
+		this.notificationSentConverter = notificationSentConverter;
 		this.notificationService = notificationService;
 	}
 
@@ -75,8 +68,6 @@ public class MyEventListener implements PostInsertEventListener, PostUpdateEvent
 
 			@Override
 			public void afterCompletion(int status) {
-
-
 				if (entity instanceof NotificationListener) {
 					NotificationListener notifier = (NotificationListener) entity;
 					Notification notification = notificationTools.buildNotification(NotificationTools.POST, notifier);
@@ -88,27 +79,23 @@ public class MyEventListener implements PostInsertEventListener, PostUpdateEvent
 					a.persist(notification);
 					a.getTransaction().commit();
 					a.disconnect();
-					//a.
 
-					NotificationDTO convert = notificationConverter.convert(notification);
-					List<String> organizers = OrganizationTools.getOrganizersUsername(notifier.getOrganization());
-					organizers.forEach(organizer -> {
+					notification.getSent().forEach(notificationSent -> {
+						NotificationDTO convert = notificationSentConverter.convert(notificationSent);
+						notificationController.getSses().computeIfPresent(convert.getUser(),
+								(String k, SseEmitter v) -> {
+									//nonBlockingService.execute(() -> {
+									try {
+										v.send(SseEmitter.event().data(convert));
 
-								notificationController.getSses().computeIfPresent(organizer,
-										(String k, SseEmitter v) -> {
-											//nonBlockingService.execute(() -> {
-											try {
-												v.send(SseEmitter.event().data(convert));
+									} catch (IOException e) {
+										Logger.getGlobal().log(Level.SEVERE, convert.getUser(), e);
+									}
 
-											} catch (IOException e) {
-												Logger.getGlobal().log(Level.SEVERE, organizer, e);
-											}
-
-											//});
-											return v;
-										});
-							}
-					);
+									//});
+									return v;
+								});
+					});
 				}
 			}
 		});

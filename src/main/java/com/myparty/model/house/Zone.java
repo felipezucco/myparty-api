@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
@@ -28,6 +30,8 @@ public class Zone {
 
     @JoinColumn(name = "house_id", foreignKey = @ForeignKey(name = "zone_house_fk"))
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @JsonManagedReference
     private House house;
 
 }

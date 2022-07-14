@@ -4,8 +4,8 @@
  */
 package com.myparty.converter;
 
-import com.myparty.dto.ZoneDTO;
-import com.myparty.interfaces.DataConverter;
+import com.myparty.dto.house.GetZone;
+import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.model.house.Zone;
 import org.springframework.stereotype.Component;
 
@@ -14,25 +14,28 @@ import org.springframework.stereotype.Component;
  * @author Felipe Zucco
  */
 @Component
-public class ZoneConverter implements DataConverter<Zone, ZoneDTO>{
+public class ZoneConverter extends ConverterComponent implements DataConverterInterface<Zone> {
 
     @Override
-    public ZoneDTO convert(Zone entity) {
-        ZoneDTO dto = new ZoneDTO();
+    public <T> T convert(Zone entity, T destinationClass) {
+        GetZone dto = new GetZone();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setSize(entity.getSize());
-        
-        return dto;
+
+        return (T) dto;
     }
 
     @Override
-    public Zone revert(ZoneDTO dto) {
+    public Zone revert(Object o) {
         Zone zone = new Zone();
-        zone.setId(dto.getId());
-        zone.setName(dto.getName());
-        zone.setSize(dto.getSize());
+
+        if (o instanceof GetZone) {
+            GetZone z = (GetZone) o;
+            zone.setId(z.getId());
+            zone.setName(z.getName());
+            zone.setSize(z.getSize());
+        }
         return zone;
     }
-    
 }

@@ -4,10 +4,12 @@
  */
 package com.myparty.converter;
 
-import com.myparty.dto.LocalDTO;
-import com.myparty.interfaces.DataConverter;
+import com.myparty.dto.local.GetLocal;
+import com.myparty.dto.local.PersistLocal;
+import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.model.Local;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.myparty.service.OrganizationService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,14 +17,15 @@ import org.springframework.stereotype.Component;
  * @author Felipe Zucco
  */
 @Component
-public class LocalConverter implements DataConverter<Local, LocalDTO>{
+@AllArgsConstructor
+public class LocalConverter extends ConverterComponent implements DataConverterInterface<Local> {
 
-    @Autowired
-    private DataConverterImplement converter;
-    
+    private OrganizationService organizationService;
+
     @Override
-    public LocalDTO convert(Local entity) {
-        LocalDTO dto = new LocalDTO();
+    public <T> T convert(Local entity, T destinationClass) {
+
+        GetLocal dto = new GetLocal();
         dto.setAisle(entity.getAisle());
         dto.setBlock(entity.getBlock());
         dto.setCity(entity.getCity());
@@ -33,24 +36,34 @@ public class LocalConverter implements DataConverter<Local, LocalDTO>{
         dto.setId(entity.getId());
         dto.setNumber(entity.getNumber());
         dto.setState(entity.getState());
-        dto.setOrganization(converter.convert(entity.getOrganization()));
-        return dto;
+        dto.setOrganization(transform(entity.getOrganization()));
+
+        return (T) dto;
     }
 
     @Override
-    public Local revert(LocalDTO dto) {
+    public Local revert(Object o) {
         Local local = new Local();
-        local.setAisle(dto.getAisle());
-        local.setBlock(dto.getBlock());
-        local.setCity(dto.getCity());
-        local.setCode(dto.getCode());
-        local.setComplement(dto.getComplement());
-        local.setCoordenateX(dto.getCoordenateX());
-        local.setCoordenateY(dto.getCoordenateY());
-        local.setId(dto.getId());
-        local.setNumber(dto.getNumber());
-        local.setState(dto.getState());
-        local.setOrganization(converter.convert(dto.getOrganization()));
+
+        if (o instanceof PersistLocal) {
+            PersistLocal pl = (PersistLocal) o;
+            local.setAisle(pl.getAisle());
+            local.setBlock(pl.getBlock());
+            local.setCity(pl.getCity());
+            local.setCode(pl.getCode());
+            local.setComplement(pl.getComplement());
+            local.setCoordenateX(pl.getCoordenateX());
+            local.setCoordenateY(pl.getCoordenateY());
+            local.setNumber(pl.getNumber());
+            local.setState(pl.getState());
+            local.setOrganization(organizationService.getOrganizationById(pl.getOrganizationId()));
+        }
+
+        if (o instanceof GetLocal) {
+            GetLocal l = (GetLocal) o;
+            local.setId(l.getId());
+            local.setOrganization(transform(l.getOrganization()));
+        }
         return local;
     }
 

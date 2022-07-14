@@ -4,39 +4,47 @@
  */
 package com.myparty.converter;
 
-import com.myparty.dto.EventDTO;
+import com.myparty.dto.event.GetEvent;
+import com.myparty.dto.event.PersistEvent;
 import com.myparty.enums.DateFormatEnum;
-import com.myparty.interfaces.DataConverter;
+import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.model.Event;
+import com.myparty.service.HouseService;
 import com.myparty.utils.DateFormat;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Felipe Zucco
  */
+@AllArgsConstructor
 @Component
-public class EventConverter implements DataConverter<Event, EventDTO>{
-    
-    private DataConverterImplement converter = new DataConverterImplement();
+public class EventConverter extends ConverterComponent implements DataConverterInterface<Event> {
+
+    private HouseService houseService;
 
     @Override
-    public EventDTO convert(Event entity) {
-        EventDTO dto = new EventDTO();
+    public <T> T convert(Event entity, T destinationClass) {
+        GetEvent dto = new GetEvent();
         dto.setDate(DateFormat.format(DateFormatEnum.ptBR, entity.getDate()));
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        dto.setHouse(converter.convert(entity.getHouse()));
-        return dto;
+        dto.setHouse(transform(entity.getHouse()));
+        return (T) dto;
     }
 
     @Override
-    public Event revert(EventDTO dto) {
+    public Event revert(Object o) {
         Event event = new Event();
-        event.setDate(DateFormat.format(DateFormatEnum.Default, dto.getDate()));
-        event.setId(dto.getId());
-        event.setHouse(converter.convert(dto.getHouse()));
-        event.setName(dto.getName());
+
+        if (o instanceof PersistEvent) {
+            PersistEvent persistEvent = (PersistEvent) o;
+            event.setName(persistEvent.getName());
+            event.setDate(DateFormat.format(DateFormatEnum.Default, persistEvent.getDate()));
+            event.setHouse(houseService.getHouseById(persistEvent.getHouseId()));
+        }
+
         return event;
     }
     

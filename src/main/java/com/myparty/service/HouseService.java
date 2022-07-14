@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.myparty.model.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,13 @@ public class HouseService {
     private ZoneService zoneService;
 
     public void persistHouse(House house) {
-        localService.persistLocal(house.getLocal());
+//        Local local = localService.getLocalById(house.getLocal().getId());
+//        house.setLocal(local);
         houseRepository.save(house);
-        house.getZones().stream().forEach((Zone zone) -> {
+        /*house.getZones().stream().forEach((Zone zone) -> {
             zone.setHouse(house);
             zoneService.saveZone(zone);
-        });
+        });*/
     }
 
     public List<House> getHouses() {

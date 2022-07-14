@@ -13,8 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.myparty.annotations.DataConverterType;
-import com.myparty.converter.OrganizationConverter;
+import com.myparty.converter.organization.OrganizationConverter;
 
 import lombok.Data;
 
@@ -33,6 +34,7 @@ public class Organization {
     @JoinTable(name = "organization_member",
             joinColumns = @JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "organization_organizer_fk")),
             inverseJoinColumns = @JoinColumn(name = "organizer_id", foreignKey = @ForeignKey(name = "organizer_organization_fk")))
+    @JsonBackReference
     private List<Organizer> organizers;
 
 }

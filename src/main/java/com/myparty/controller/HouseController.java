@@ -1,8 +1,10 @@
 package com.myparty.controller;
 
-import com.myparty.controller.middleware.HouseMiddleware;
+import com.myparty.dto.house.PersistHouse;
+import com.myparty.middleware.HouseMiddleware;
 import java.util.List;
 
+import com.myparty.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,44 +14,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.myparty.dto.house.HouseDTO;
+import com.myparty.dto.house.GetHouse;
 
 @RestController
 @RequestMapping("/api/house")
-public class HouseController {
+public class HouseController extends ControllerComponent {
 
     @Autowired
-    private HouseMiddleware middleware;
+    private HouseService houseService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<HouseDTO> getHousesById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(middleware.getHousesById(id));
+    public ResponseEntity<GetHouse> getHousesById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(_8(houseService.getHouseById(id)));
     }
 
     @GetMapping
-    public ResponseEntity<List<HouseDTO>> getHouses() throws Exception {
-        return ResponseEntity.ok(middleware.getHouses());
+    public ResponseEntity<List<GetHouse>> getHouses() throws Exception {
+        return ResponseEntity.ok(_8(houseService.getHouses()));
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void persistHouse(@RequestBody HouseDTO houseDTO) throws Exception {
-        middleware.persistHouse(houseDTO);
+    public void persistHouse(@RequestBody PersistHouse persistHouse) throws Exception {
+        houseService.persistHouse(_8(persistHouse));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void deleteHouse(@PathVariable("id") Long id) throws Exception {
-        middleware.deleteHouse(id);
+        houseService.deleteHouse(id);
     }
     
     @GetMapping("/org/{id}")
-    public ResponseEntity<List<HouseDTO>> getHousesByOrganizationId(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(middleware.getHousesByOrganizationId( id));
+    public ResponseEntity<List<GetHouse>> getHousesByOrganizationId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(_8(houseService.getHousesByOrganizationId( id)));
     }
 
 }

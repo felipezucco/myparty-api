@@ -12,4 +12,5 @@ import java.util.List;
 public interface OrganizerRepository extends JpaRepository<Organizer, Long> {
 
     List<Organizer> findByUser(UserProfile user);
+    List<Organizer> findByUserId(Long userId);
 }

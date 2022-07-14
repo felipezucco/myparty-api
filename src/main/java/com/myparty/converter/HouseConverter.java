@@ -4,11 +4,14 @@
  */
 package com.myparty.converter;
 
-import com.myparty.dto.house.HouseDTO;
-import com.myparty.interfaces.DataConverter;
+import com.myparty.dto.house.GetHouse;
+import com.myparty.dto.house.PersistHouse;
+import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.model.Local;
 import com.myparty.model.house.House;
 import com.myparty.model.house.Zone;
+import com.myparty.service.LocalService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,32 +21,41 @@ import java.util.List;
  * @author Felipe Zucco
  */
 @Component
-public class HouseConverter implements DataConverter<House, HouseDTO>{
+@AllArgsConstructor
+public class HouseConverter extends ConverterComponent implements DataConverterInterface<House> {
 
-    private DataConverterImplement converter = new DataConverterImplement();
-    
+    private LocalService localService;
+
     @Override
-    public HouseDTO convert(House entity) {        
-        HouseDTO dto = new HouseDTO();
+    public <T> T convert(House entity, T destinationClass) {
+        GetHouse dto = new GetHouse();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        
+
         Local local = entity.getLocal();
-        dto.setLocal(converter.convert(local));
-        
+        dto.setLocal(transform(local));
+
         List<Zone> zones = entity.getZones();
-        dto.setZones(converter.convert(zones));
-        return dto;
+        dto.setZones(transform(zones));
+
+        return (T) dto;
     }
 
     @Override
-    public House revert(HouseDTO dto) {
+    public House revert(Object o) {
         House house = new House();
-        house.setId(dto.getId());
-        house.setLocal(converter.convert(dto.getLocal()));
-        house.setName(dto.getName());
-        house.setZones(converter.convert(dto.getZones()));
+
+        if (o instanceof PersistHouse) {
+            PersistHouse ph = (PersistHouse) o;
+            house.setLocal(localService.getLocalById(ph.getLocalId()));
+            house.setName(ph.getName());
+            house.setZones(transform(ph.getZones()));
+            house.getZones().forEach(zone -> zone.setHouse(house));
+        }
+        if (o instanceof GetHouse) {
+            GetHouse h = (GetHouse) o;
+            house.setId(h.getId());
+        }
         return house;
     }
-    
 }

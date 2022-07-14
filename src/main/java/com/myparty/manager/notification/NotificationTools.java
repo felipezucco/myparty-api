@@ -32,7 +32,6 @@ public class NotificationTools {
 		Notification notification = getType(type, listener, user.getId());
 		notification.setOrganization(listener.getOrganization());
 		notification.setDate(new Date());
-		notification.setUser(user);
 		return notification;
 	}
 
@@ -41,6 +40,7 @@ public class NotificationTools {
 			NotificationSent notificationSent = new NotificationSent();
 			notificationSent.setUser(o.getUser());
 			notificationSent.setNotification(notification);
+			notificationSent.setVisualized(false);
 			notification.addSent(notificationSent);
 		});
 	}

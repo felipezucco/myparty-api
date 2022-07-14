@@ -1,17 +1,9 @@
 package com.myparty.model.ticket;
 
 import com.myparty.annotations.DataConverterType;
-import com.myparty.converter.TicketBatchConverter;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.myparty.converter.ticket.TicketBatchConverter;
+
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -27,6 +19,8 @@ public class TicketBatch {
     private Integer quantity;
     private String name;
     private Double price;
+
+    @Column(name = "first_number")
     private Integer firstNumber;
 
     @JoinTable(name = "ticket_ticket_batch",

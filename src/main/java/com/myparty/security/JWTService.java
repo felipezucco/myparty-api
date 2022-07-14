@@ -1,8 +1,7 @@
 package com.myparty.security;
 
-import com.myparty.controller.middleware.UserMiddleware;
-import com.myparty.dto.UserWithoutPasswordDTO;
-import com.myparty.enums.UserSearchEnum;
+import com.myparty.middleware.UserMiddleware;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,9 +14,6 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import static io.jsonwebtoken.Jwts.claims;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service

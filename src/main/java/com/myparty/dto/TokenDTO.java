@@ -1,10 +1,13 @@
 package com.myparty.dto;
 
+import com.myparty.dto.user.GetUserWithPassword;
 import lombok.Data;
 
-@Data
-public class TokenDTO {
+import java.io.Serializable;
 
-    private UserWithoutPasswordDTO user;
+@Data
+public class TokenDTO implements Serializable {
+
+    private GetUserWithPassword user;
     private String token;
 }

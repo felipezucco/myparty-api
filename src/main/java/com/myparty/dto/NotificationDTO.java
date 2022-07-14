@@ -2,10 +2,9 @@ package com.myparty.dto;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import com.myparty.annotations.DataConverterType;
-import com.myparty.converter.NotificationConverter;
+import com.myparty.converter.notification.NotificationSentConverterOld;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@DataConverterType(value = NotificationConverter.class, dto = true)
+@DataConverterType(NotificationSentConverterOld.class)
 public class NotificationDTO implements Serializable {
 	private static final long serialVersionUID = -351028616460087093L;
 

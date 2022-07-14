@@ -1,8 +1,11 @@
 package com.myparty.controller;
 
-import com.myparty.controller.middleware.TicketMiddleware;
-import com.myparty.dto.ticket.TicketDTO;
+import com.myparty.dto.ticket.PersistTicket;
+import com.myparty.middleware.TicketMiddleware;
+import com.myparty.dto.ticket.GetTicket;
 import java.util.List;
+
+import com.myparty.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,31 +20,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/ticket")
-public class TicketController {
-	
+public class TicketController extends ControllerComponent {
+
     @Autowired
-    private TicketMiddleware middleware;
-    
+    private TicketService ticketService;
+
     @PostMapping
-    public void persistEntity(@RequestBody TicketDTO dto) {
-        middleware.persistTicket(dto);
+    public void persistEntity(@RequestBody PersistTicket dto) {
+        ticketService.persistTicket(_8(dto));
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<List<TicketDTO>> getTicketByEventId(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(middleware.getTicketByEventId(id));
+    public ResponseEntity<List<GetTicket>> getTicketByEventId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(_8(ticketService.getTicketByEventId(id)));
     }
     
     @DeleteMapping("/batch/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteTicketBatchById(@PathVariable("id") Long id) {
-        middleware.deleteTicketBatchById(id);
+        ticketService.deleteTicketBatchById(id);
     }
     
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteTicketById(@PathVariable("id") Long id) {
-        middleware.deleteTicketById(id);
+        ticketService.deleteTicketById(id);
     }
     
 }

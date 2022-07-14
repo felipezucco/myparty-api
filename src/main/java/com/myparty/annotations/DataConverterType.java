@@ -17,5 +17,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DataConverterType {
     Class value();
-    boolean dto() default false;
 }

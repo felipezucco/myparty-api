@@ -15,8 +15,7 @@ public class LocalService {
     private LocalRepository localRepository;
 
     public Local persistLocal(Local local) {
-        localRepository.save(local);
-        return local;
+        return localRepository.save(local);
     }
 
     public List<Local> getLocals() {

@@ -4,15 +4,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.myparty.controller.middleware.NotificationMiddleware;
+import com.myparty.middleware.NotificationMiddleware;
 import com.myparty.dto.NotificationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import lombok.Data;
@@ -53,6 +50,11 @@ public class NotificationController {
 	@GetMapping("/{id}")
 	public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@PathVariable("id") Long id) {
 		return ResponseEntity.ok(notificationMiddleware.getNotificationsByUserId(id));
+	}
+
+	@PutMapping("/seen/{id}")
+	public ResponseEntity<Boolean> setNotificationSeen(@PathVariable Long id) {
+		return ResponseEntity.ok(notificationMiddleware.setNotificationSeen(id));
 	}
 
 }

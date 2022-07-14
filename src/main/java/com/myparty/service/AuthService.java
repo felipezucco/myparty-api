@@ -8,11 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.myparty.configs.MessagerConfig;
-import com.myparty.controller.middleware.UserMiddleware;
+import com.myparty.middleware.UserMiddleware;
 import com.myparty.dto.LoginDTO;
 import com.myparty.dto.TokenDTO;
-import com.myparty.dto.UserWithoutPasswordDTO;
+import com.myparty.dto.user.GetUserWithPassword;
 import com.myparty.enums.RoleEnum;
 import com.myparty.exception.MismatchedPasswordException;
 import com.myparty.model.UserProfile;
@@ -35,9 +34,6 @@ public class AuthService implements UserDetailsService {
 
     @Autowired
     private JWTService jwtService;
-
-    @Autowired
-    private MessagerConfig messagerConfig;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -69,7 +65,7 @@ public class AuthService implements UserDetailsService {
     	String username = user.getUsername();
         TokenDTO tokenDTO = new TokenDTO();
 
-        UserWithoutPasswordDTO userStartsWith = userMiddleware.getUserByUsername(username);
+        GetUserWithPassword userStartsWith = userMiddleware.getUserByUsername(username);
         tokenDTO.setUser(userStartsWith);
 
         String token = jwtService.createToken(username);

@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.myparty.converter.user.UserConverter;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.myparty.annotations.DataConverterType;
-import com.myparty.converter.UserWithoutPasswordConverter;
+import com.myparty.converter.user.UserWithoutPasswordConverterOld;
 
 import lombok.Data;
 
@@ -23,20 +25,18 @@ import lombok.Data;
     @UniqueConstraint(columnNames = "username", name = "user_username_uk"),
     @UniqueConstraint(columnNames = "email", name = "user_email_uk")
 })
-@DataConverterType(UserWithoutPasswordConverter.class)
+@DataConverterType(UserConverter.class)
 public class UserProfile implements Serializable {
 
     @Id
     @GenericGenerator(strategy = "uuid", name = "system-uuid")
     @GeneratedValue(generator = "uuid")
     private Long id;
-
     private String username;
 
+    @JsonIgnore
     private String password;
-
     private String name;
-
     private String email;
 
     public UserProfile builder() {
