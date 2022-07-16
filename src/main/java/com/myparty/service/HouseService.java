@@ -26,13 +26,7 @@ public class HouseService {
     private ZoneService zoneService;
 
     public void persistHouse(House house) {
-//        Local local = localService.getLocalById(house.getLocal().getId());
-//        house.setLocal(local);
         houseRepository.save(house);
-        /*house.getZones().stream().forEach((Zone zone) -> {
-            zone.setHouse(house);
-            zoneService.saveZone(zone);
-        });*/
     }
 
     public List<House> getHouses() {

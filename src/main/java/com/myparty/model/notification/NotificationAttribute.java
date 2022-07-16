@@ -2,6 +2,8 @@ package com.myparty.model.notification;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import org.hibernate.annotations.Check;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +26,8 @@ public class NotificationAttribute {
 
 	@JoinColumn(name = "notification_id", foreignKey = @ForeignKey(name = "notification_attribute_notification_fk"))
     @ManyToOne(fetch = FetchType.LAZY)
+	@JsonManagedReference
+	@ToString.Exclude
 	private Notification notification;
 
 	@Column(name = "index")

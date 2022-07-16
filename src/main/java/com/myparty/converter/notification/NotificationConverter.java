@@ -3,19 +3,21 @@ package com.myparty.converter.notification;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import com.myparty.converter.ConverterComponent;
+import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.model.notification.NotificationSent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import com.myparty.dto.NotificationDTO;
+import com.myparty.dto.GetNotification;
 import com.myparty.interfaces.OldDataConverter;
 import com.myparty.manager.notification.NotificationTools;
 import com.myparty.service.UserService;
 import com.myparty.utils.DateFormat;
 
 @Component
-public class NotificationSentConverterOld implements OldDataConverter<NotificationSent, NotificationDTO> {
+public class NotificationConverter extends ConverterComponent implements DataConverterInterface<NotificationSent> {
 
 	@Autowired
 	private MessageSource messageSource;
@@ -27,8 +29,8 @@ public class NotificationSentConverterOld implements OldDataConverter<Notificati
 	private UserService userService;
 
 	@Override
-	public NotificationDTO convert(NotificationSent entity) {
-		NotificationDTO dto = new NotificationDTO();
+	public <T> T convert(NotificationSent entity, T destinationClass) {
+		GetNotification dto = new GetNotification();
 
 		dto.setDate(DateFormat.format(entity.getNotification().getDate()));
 		dto.setId(entity.getId());
@@ -46,13 +48,11 @@ public class NotificationSentConverterOld implements OldDataConverter<Notificati
 			return t.getValue();
 		}).collect(Collectors.toList()));
 
-		return dto;
+		return (T) dto;
 	}
 
 	@Override
-	public NotificationSent revert(NotificationDTO dto) {
-		// TODO Auto-generated method stub
+	public NotificationSent revert(Object o) {
 		return null;
 	}
-
 }

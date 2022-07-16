@@ -1,7 +1,6 @@
 package com.myparty.controller;
 
 import com.myparty.dto.ticket.PersistTicket;
-import com.myparty.middleware.TicketMiddleware;
 import com.myparty.dto.ticket.GetTicket;
 import java.util.List;
 

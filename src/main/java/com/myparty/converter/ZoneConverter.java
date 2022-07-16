@@ -5,6 +5,7 @@
 package com.myparty.converter;
 
 import com.myparty.dto.house.GetZone;
+import com.myparty.dto.house.PersistZone;
 import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.model.house.Zone;
 import org.springframework.stereotype.Component;
@@ -30,9 +31,8 @@ public class ZoneConverter extends ConverterComponent implements DataConverterIn
     public Zone revert(Object o) {
         Zone zone = new Zone();
 
-        if (o instanceof GetZone) {
-            GetZone z = (GetZone) o;
-            zone.setId(z.getId());
+        if (o instanceof PersistZone) {
+            PersistZone z = (PersistZone) o;
             zone.setName(z.getName());
             zone.setSize(z.getSize());
         }

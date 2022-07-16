@@ -1,7 +1,6 @@
 package com.myparty.controller;
 
 import com.myparty.dto.house.PersistHouse;
-import com.myparty.middleware.HouseMiddleware;
 import java.util.List;
 
 import com.myparty.service.HouseService;
@@ -50,7 +49,7 @@ public class HouseController extends ControllerComponent {
     
     @GetMapping("/org/{id}")
     public ResponseEntity<List<GetHouse>> getHousesByOrganizationId(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(_8(houseService.getHousesByOrganizationId( id)));
+        return ResponseEntity.ok(_8(houseService.getHousesByOrganizationId(id)));
     }
 
 }

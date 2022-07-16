@@ -10,20 +10,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.myparty.annotations.DataConverterType;
-import com.myparty.converter.notification.NotificationSentConverterOld;
+import com.myparty.converter.notification.NotificationConverter;
 import com.myparty.model.UserProfile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "notification_sent")
-@DataConverterType(value = NotificationSentConverterOld.class)
+@DataConverterType(NotificationConverter.class)
 public class NotificationSent {
 
 	@Id
@@ -37,6 +39,8 @@ public class NotificationSent {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "notification_id", foreignKey = @ForeignKey(name = "notification_sent_notification_fk"))
+	@JsonManagedReference
+	@ToString.Exclude
 	private Notification notification;
 
 	@ManyToOne(fetch = FetchType.LAZY)

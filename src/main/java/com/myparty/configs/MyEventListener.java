@@ -10,17 +10,19 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.Synchronization;
 
-import com.myparty.converter.notification.NotificationSentConverterOld;
+import com.myparty.converter.DataConverterEngine;
+import com.myparty.converter.notification.NotificationConverter;
 import org.hibernate.Session;
 import org.hibernate.event.service.spi.EventListenerRegistry;
 import org.hibernate.event.spi.*;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.persister.entity.EntityPersister;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.myparty.controller.NotificationController;
-import com.myparty.dto.NotificationDTO;
+import com.myparty.dto.GetNotification;
 import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.manager.notification.NotificationTools;
 import com.myparty.model.notification.Notification;
@@ -34,18 +36,19 @@ public class MyEventListener implements PostInsertEventListener, PostUpdateEvent
 	private NotificationController notificationController;
 	private ExecutorService nonBlockingService = Executors.newCachedThreadPool();
 	private NotificationTools notificationTools;
-	private NotificationSentConverterOld notificationSentConverter;
+
+	private DataConverterEngine converterEngine;
 	private NotificationService notificationService;
 
 	private SessionFactoryImpl sessionFactory;
 
 	public MyEventListener(EntityManagerFactory entityManagerFactory, NotificationController notificationController,
-                           NotificationTools notificationTools, NotificationSentConverterOld notificationSentConverter, NotificationService notificationService) {
+						   NotificationTools notificationTools, DataConverterEngine converterEngine, NotificationService notificationService) {
 		super();
 		this.entityManagerFactory = entityManagerFactory;
 		this.notificationController = notificationController;
 		this.notificationTools = notificationTools;
-		this.notificationSentConverter = notificationSentConverter;
+		this.converterEngine = converterEngine;
 		this.notificationService = notificationService;
 	}
 
@@ -81,7 +84,7 @@ public class MyEventListener implements PostInsertEventListener, PostUpdateEvent
 					a.disconnect();
 
 					notification.getSent().forEach(notificationSent -> {
-						NotificationDTO convert = notificationSentConverter.convert(notificationSent);
+						GetNotification convert = converterEngine.start(notificationSent);
 						notificationController.getSses().computeIfPresent(convert.getUser(),
 								(String k, SseEmitter v) -> {
 									//nonBlockingService.execute(() -> {

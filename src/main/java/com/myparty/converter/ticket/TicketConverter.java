@@ -44,7 +44,7 @@ public class TicketConverter extends ConverterComponent implements DataConverter
             ticket.setName(pt.getName());
             ticket.setEvent(eventService.getEventById(pt.getEventId()));
             ticket.setBatchs(transform(pt.getBatchs()));
-            ticket.getBatchs().forEach(ticketBatch -> ticketBatch.setTicket(ticket));
+            //ticket.getBatchs().forEach(ticketBatch -> ticketBatch.setTicket(ticket));
         }
 
         return ticket;

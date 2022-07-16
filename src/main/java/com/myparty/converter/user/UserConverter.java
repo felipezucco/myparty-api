@@ -10,6 +10,7 @@ import com.myparty.dto.user.PersistUser;
 import com.myparty.dto.user.GetUser;
 import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.model.UserProfile;
+import com.myparty.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class UserConverter extends ConverterComponent implements DataConverterInterface<UserProfile> {
+
+    private UserService userService;
 
     @Override
     public <T> T convert(UserProfile entity, T destinationClass) {
@@ -50,7 +53,7 @@ public class UserConverter extends ConverterComponent implements DataConverterIn
             PersistUser pu = (PersistUser) o;
             entity.setEmail(pu.getEmail());
             entity.setName(pu.getName());
-            entity.setPassword(pu.getPassword());
+            entity.setPassword(userService.getPasswordEncoder().encode(pu.getPassword()));
             entity.setUsername(pu.getUsername());
         }
 

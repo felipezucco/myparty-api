@@ -2,12 +2,8 @@ package com.myparty.service;
 
 import com.myparty.model.notification.NotificationSent;
 import com.myparty.repository.NotificationSentRepository;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.myparty.dto.NotificationDTO;
 import com.myparty.model.notification.Notification;
 import com.myparty.repository.NotificationRepository;
 

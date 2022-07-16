@@ -1,5 +1,6 @@
 package com.myparty.dto.organization;
 
+import lombok.Builder;
 import lombok.Data;
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.organization.OrganizerConverter;

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.myparty.middleware.NotificationMiddleware;
-import com.myparty.dto.NotificationDTO;
+import com.myparty.dto.GetNotification;
+import com.myparty.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +17,12 @@ import lombok.Data;
 @Data
 @RestController
 @RequestMapping("/api/notification")
-public class NotificationController {
-
-	@Autowired
-	private NotificationMiddleware notificationMiddleware;
+public class NotificationController extends ControllerComponent {
 
 	private Map<String, SseEmitter> sses = new ConcurrentHashMap<>();
+
+	@Autowired
+	private NotificationService notificationService;
 	
 	@GetMapping(value = "/sse/{username}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public SseEmitter streamFlux(@PathVariable("username") String username) {
@@ -48,13 +48,13 @@ public class NotificationController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@PathVariable("id") Long id) {
-		return ResponseEntity.ok(notificationMiddleware.getNotificationsByUserId(id));
+	public ResponseEntity<List<GetNotification>> getNotificationsByUserId(@PathVariable("id") Long id) {
+		return ResponseEntity.ok(_8(notificationService.getNotificationSentForUserId(id)));
 	}
 
 	@PutMapping("/seen/{id}")
 	public ResponseEntity<Boolean> setNotificationSeen(@PathVariable Long id) {
-		return ResponseEntity.ok(notificationMiddleware.setNotificationSeen(id));
+		return ResponseEntity.ok(notificationService.setNotificationSeen(id));
 	}
 
 }

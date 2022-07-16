@@ -33,12 +33,11 @@ public class Organizer {
     @Column(name = "role_number")
     private RoleEnum role = RoleEnum.USER;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "organization_member",
             inverseJoinColumns = @JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "organization_organizer_fk")),
             joinColumns = @JoinColumn(name = "organizer_id", foreignKey = @ForeignKey(name = "organizer_organization_fk")))
     @ToString.Exclude
-    @JsonManagedReference
     private Organization organization;
 
     @ManyToMany(fetch = FetchType.LAZY)

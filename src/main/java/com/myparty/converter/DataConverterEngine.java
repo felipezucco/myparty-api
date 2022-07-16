@@ -9,6 +9,7 @@ import com.myparty.enums.Scenarios;
 import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.interfaces.OldDataConverter;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -40,9 +41,9 @@ public class DataConverterEngine {
     public <T> T preEngine(Object o, Class end) {
         if (o instanceof Collection) {
             Collection collection = (Collection) o;
-            return (T) collection.stream().map(obj -> converter(obj, null)).collect(Collectors.toList());
+            return (T) collection.stream().map(obj -> converter(obj, end)).collect(Collectors.toList());
         } else {
-            return (T) converter(o, null);
+            return (T) converter(o, end);
         }
     }
 
@@ -50,15 +51,29 @@ public class DataConverterEngine {
         o = initializeAndUnproxy(o);
         DataConverterType dataConverterType = o.getClass().getAnnotation(DataConverterType.class);
         Object obj = beanFactory(dataConverterType.value());
+        Object dest = newInstanceForClass(end);
+
         if (obj instanceof DataConverterInterface) {
             DataConverterInterface dataConverter = (DataConverterInterface) obj;
             if (isDTOClass(o)) {
                 return (T) dataConverter.revert(o);
             } else {
-                return (T) dataConverter.convert(o, end);
+                return (T) dataConverter.convert(o, dest);
             }
         }
         return null;
+    }
+
+    private Object newInstanceForClass(Class end) {
+        if (end == null) {
+            return end;
+        }
+
+        try {
+            return end.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private <T> T initializeAndUnproxy(T entity) {

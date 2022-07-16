@@ -47,7 +47,7 @@ public class HouseConverter extends ConverterComponent implements DataConverterI
 
         if (o instanceof PersistHouse) {
             PersistHouse ph = (PersistHouse) o;
-            house.setLocal(localService.getLocalById(ph.getLocalId()));
+            house.setLocal(transform(ph.getLocal()));
             house.setName(ph.getName());
             house.setZones(transform(ph.getZones()));
             house.getZones().forEach(zone -> zone.setHouse(house));

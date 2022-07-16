@@ -12,6 +12,6 @@ public class PersistZone implements Serializable {
 
     private String name;
     private Double size;
-    private Long localId;
+    private Long houseId;
 
 }

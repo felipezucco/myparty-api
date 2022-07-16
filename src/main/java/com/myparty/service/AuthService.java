@@ -1,5 +1,7 @@
 package com.myparty.service;
 
+import com.myparty.converter.DataConverterEngine;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.myparty.middleware.UserMiddleware;
 import com.myparty.dto.LoginDTO;
 import com.myparty.dto.TokenDTO;
 import com.myparty.dto.user.GetUserWithPassword;
@@ -21,19 +22,14 @@ import com.myparty.security.JWTService;
 import io.jsonwebtoken.Claims;
 
 @Service
+@AllArgsConstructor
 public class AuthService implements UserDetailsService {
 
-    @Autowired
+
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
-    private UserMiddleware userMiddleware;
-
-    @Autowired
     private JWTService jwtService;
+    private DataConverterEngine converter;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -65,14 +61,13 @@ public class AuthService implements UserDetailsService {
     	String username = user.getUsername();
         TokenDTO tokenDTO = new TokenDTO();
 
-        GetUserWithPassword userStartsWith = userMiddleware.getUserByUsername(username);
+        GetUserWithPassword userStartsWith = converter.start(userService.getUserByUsername(username), GetUserWithPassword.class);
         tokenDTO.setUser(userStartsWith);
 
         String token = jwtService.createToken(username);
         CachedTokens.add(token);
 
         tokenDTO.setToken(token);
-        //messagerConfig.addQueue(username);
         return tokenDTO;
     }
 
@@ -80,7 +75,7 @@ public class AuthService implements UserDetailsService {
         Claims claims = jwtService.validateToken(token);
         TokenDTO tokenDTO = new TokenDTO();
         tokenDTO.setToken(token);
-        tokenDTO.setUser(userMiddleware.getUserByUsername(claims.getSubject()));
+        tokenDTO.setUser(converter.start(userService.getUserByUsername(claims.getSubject())));
         return tokenDTO;
     }
 }

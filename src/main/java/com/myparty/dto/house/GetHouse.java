@@ -10,9 +10,10 @@ import com.myparty.dto.local.GetLocal;
 
 @Data
 @DataConverterType(HouseConverter.class)
-public class GetHouse extends PersistHouse implements Serializable {
+public class GetHouse implements Serializable {
 
     private Long id;
+    private String name;
     private GetLocal local;
     private List<GetZone> zones;
 

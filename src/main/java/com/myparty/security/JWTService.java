@@ -1,7 +1,5 @@
 package com.myparty.security;
 
-import com.myparty.middleware.UserMiddleware;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,9 +10,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import static io.jsonwebtoken.Jwts.claims;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class JWTService {
@@ -24,9 +20,6 @@ public class JWTService {
 
     @Value("${security.jwt.signature}")
     private String signature;
-    
-    @Autowired
-    private UserMiddleware userMiddleware;
 
     public String createToken(String username) {
         Long exp = Long.parseLong(expiration);

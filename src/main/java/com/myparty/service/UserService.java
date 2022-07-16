@@ -3,8 +3,13 @@ package com.myparty.service;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.myparty.enums.UserSearchEnum;
@@ -13,10 +18,12 @@ import com.myparty.model.UserProfile;
 import com.myparty.repository.UserRepository;
 
 @Service
+@Data
+@AllArgsConstructor
 public class UserService {
 
-	@Autowired
 	private UserRepository userRepository;
+	private PasswordEncoder passwordEncoder;
 
 	public void persistUser(UserProfile user) {
 		userRepository.save(user);

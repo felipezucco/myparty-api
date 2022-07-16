@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.NotificationTypeConverter;
 import com.myparty.enums.NotificationTypeEnum;
 import com.myparty.model.organization.Organization;
@@ -40,9 +42,11 @@ public class Notification {
 	private Date date;
 
 	@OneToMany(mappedBy = "notification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
 	private List<NotificationSent> sent;
 
 	@OneToMany(mappedBy = "notification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
 	private List<NotificationAttribute> attributes;
 
 	public static Notification builder() {

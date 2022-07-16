@@ -35,7 +35,7 @@ public class OrganizationConverter extends ConverterComponent implements DataCon
         }
         if (destinationClass instanceof GetOrganizationWithOrganizers) {
             GetOrganizationWithOrganizers gowo = (GetOrganizationWithOrganizers) destinationClass;
-            gowo.setOrganizers(transform(organization.getOrganizers(), GetOrganizerWithOrganization.class));
+            gowo.setOrganizers(transform(organization.getOrganizers(), GetOrganizer.class));
         }
 
         return (T) destinationClass;
@@ -50,7 +50,6 @@ public class OrganizationConverter extends ConverterComponent implements DataCon
             organization.setName(po.getName());
             organization.setFavorite(po.getFavorite());
             organization.setOrganizers(transform(po.getOrganizers()));
-            organization.getOrganizers().forEach(organizer -> organizer.setOrganization(organization));
         }
 
         return organization;

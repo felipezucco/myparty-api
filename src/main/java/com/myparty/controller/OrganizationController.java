@@ -1,8 +1,9 @@
 package com.myparty.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.myparty.dto.organization.GetOrganizationWithOrganizers;
+import com.myparty.dto.organization.*;
 import com.myparty.model.organization.Organizer;
 import com.myparty.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.myparty.dto.organization.GetOrganization;
-import com.myparty.dto.organization.GetOrganizerWithOrganization;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
@@ -38,8 +37,8 @@ public class OrganizationController extends ControllerComponent {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void persistOrganization(@RequestBody GetOrganizationWithOrganizers getOrganization) {
-        organizationService.persistOrganization(_8(getOrganization, GetOrganizationWithOrganizers.class));
+    public void persistOrganization(@RequestBody PersistOrganization persistOrganization) {
+        organizationService.persistOrganization(_8(persistOrganization));
     }
 
     @GetMapping("/organizer")
@@ -49,8 +48,8 @@ public class OrganizationController extends ControllerComponent {
 
     @PostMapping("/organizer")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void persistOrganizer(@RequestBody GetOrganizerWithOrganization organizerWithOrganizationDTO) {
-        organizationService.persistOrganizer(_8(organizerWithOrganizationDTO, GetOrganizerWithOrganization.class));
+    public void persistOrganizer(@RequestBody PersistOrganizer persistOrganizer) {
+        organizationService.persistOrganizer(_8(persistOrganizer));
     }
 
     @PostMapping("/user/{id}")

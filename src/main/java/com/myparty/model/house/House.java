@@ -29,7 +29,7 @@ public class House implements NotificationListener {
 	private Long id;
 	private String name;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "local_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "house_local_fk"))
 	private Local local;
 

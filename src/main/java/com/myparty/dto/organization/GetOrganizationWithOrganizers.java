@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @DataConverterType(OrganizationConverter.class)
-public class GetOrganizationWithOrganizers extends GetOrganizerWithOrganization implements Serializable {
+public class GetOrganizationWithOrganizers extends GetOrganization implements Serializable {
 
     private List<GetOrganizer> organizers;
 

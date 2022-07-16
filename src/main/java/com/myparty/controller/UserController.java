@@ -33,6 +33,7 @@ public class UserController extends ControllerComponent {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void persistUser(@RequestBody PersistUser persistUser) {
+        userService.checkUsernameEmailAccount(persistUser.getUsername(), persistUser.getEmail());
         userService.persistUser(_8(persistUser));
     }
 
