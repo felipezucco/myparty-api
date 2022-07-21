@@ -1,0 +1,15 @@
+package com.myparty.dto.financial;
+
+import com.myparty.annotations.DataConverterType;
+import com.myparty.converter.FinancialConverter;
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+@DataConverterType(FinancialConverter.class)
+public class GetFinancial implements Serializable {
+
+    private Long id;
+    private Double value;
+}

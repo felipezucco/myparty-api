@@ -84,18 +84,16 @@ public class MyEventListener implements PostInsertEventListener, PostUpdateEvent
 					a.disconnect();
 
 					notification.getSent().forEach(notificationSent -> {
-						GetNotification convert = converterEngine.start(notificationSent);
-						notificationController.getSses().computeIfPresent(convert.getUser(),
+						notificationController.getSses().computeIfPresent(notificationSent.getUser().getUsername(),
 								(String k, SseEmitter v) -> {
-									//nonBlockingService.execute(() -> {
-									try {
-										v.send(SseEmitter.event().data(convert));
-
-									} catch (IOException e) {
-										Logger.getGlobal().log(Level.SEVERE, convert.getUser(), e);
-									}
-
-									//});
+									GetNotification convert = converterEngine.start(notificationSent);
+									nonBlockingService.execute(() -> {
+										try {
+											v.send(SseEmitter.event().data(convert));
+										} catch (IOException e) {
+											Logger.getGlobal().log(Level.SEVERE, convert.getUser(), e);
+										}
+									});
 									return v;
 								});
 					});

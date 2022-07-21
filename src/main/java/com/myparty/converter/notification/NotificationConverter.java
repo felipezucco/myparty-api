@@ -1,5 +1,7 @@
 package com.myparty.converter.notification;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -40,13 +42,16 @@ public class NotificationConverter extends ConverterComponent implements DataCon
 
 		dto.setMessage(messageSource.getMessage(entity.getNotification().getNotificationType().getCode(), null, Locale.getDefault()));
 
-		dto.setAttributes(entity.getNotification().getAttributes().stream().map(t -> {
+		List<String> attributes = new ArrayList<>();
+		entity.getNotification().getAttributes().forEach(t -> {
 			if (t.getReferenceColumn().equals("username")) {
-				String nameById = userService.getNameById(Long.parseLong(t.getValue()));
-				t.setValue(nameById);
+				attributes.add(userService.getNameById(Long.parseLong(t.getValue())));
+			} else {
+				attributes.add(t.getValue());
 			}
-			return t.getValue();
-		}).collect(Collectors.toList()));
+		});
+
+		dto.setAttributes(attributes);
 
 		return (T) dto;
 	}

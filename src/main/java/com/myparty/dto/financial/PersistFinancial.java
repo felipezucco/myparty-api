@@ -1,4 +1,4 @@
-package com.myparty.dto;
+package com.myparty.dto.financial;
 
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.FinancialConverter;
@@ -8,8 +8,7 @@ import java.io.Serializable;
 
 @Data
 @DataConverterType(FinancialConverter.class)
-public class FinancialDTO implements Serializable {
+public class PersistFinancial implements Serializable {
 
-    private Long id;
     private Double value;
 }

@@ -2,6 +2,7 @@ package com.myparty.model;
 
 import javax.persistence.*;
 
+import com.myparty.model.notification.NotificationAttribute;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,6 +14,9 @@ import com.myparty.model.notification.Notification;
 import com.myparty.model.organization.Organization;
 
 import lombok.Data;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Data
 @Entity
@@ -47,10 +51,11 @@ public class Local implements NotificationListener {
 
 	@Override
 	public Notification postNotification(Long userId) {
-		 Notification notification = Notification.builder()
-				.setNotificationType(NotificationTypeEnum.LOCAL_CREATE)
-				.addAttribute(0,"user_profile", "username", userId.toString());
-		 return notification;
+		 return Notification.builder()
+				.notificationType(NotificationTypeEnum.LOCAL_CREATE)
+				.attributes(
+						NotificationAttribute.builder().index(0).referenceTable("user_profile").referenceColumn("username").value(userId.toString()).build()
+				);
 	}
 
 	@Override

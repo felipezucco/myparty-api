@@ -1,14 +1,14 @@
 package com.myparty.model.notification;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.myparty.annotations.DataConverterType;
-import com.myparty.converter.NotificationTypeConverter;
+import com.myparty.converter.notification.NotificationTypeConverter;
 import com.myparty.enums.NotificationTypeEnum;
 import com.myparty.model.organization.Organization;
 
@@ -53,18 +53,14 @@ public class Notification {
 		return new Notification();
 	}
 
-	public Notification setNotificationType(NotificationTypeEnum typeEnum) {
+	public Notification notificationType(NotificationTypeEnum typeEnum) {
 		notificationType = typeEnum;
 		return this;
 	}
 
-	public Notification addAttribute(Integer index, String table, String column, String value) {
-		if (this.getAttributes() == null) {
-			this.setAttributes(new ArrayList<>());
-		}
-
-		NotificationAttribute attribute = NotificationAttribute.builder(this, index, table, column, value);
-		this.getAttributes().add(attribute);
+	public Notification attributes(NotificationAttribute... attributes) {
+		Arrays.stream(attributes).forEach(attr -> attr.setNotification(this));
+		this.setAttributes(Arrays.asList(attributes));
 		return this;
 	}
 

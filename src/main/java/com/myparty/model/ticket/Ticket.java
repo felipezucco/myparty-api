@@ -7,6 +7,7 @@ import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.Event;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.CascadeType;
 
@@ -22,6 +23,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.myparty.model.notification.Notification;
+import com.myparty.model.notification.NotificationAttribute;
 import com.myparty.model.organization.Organization;
 import lombok.Data;
 
@@ -50,10 +52,12 @@ public class Ticket implements Serializable, NotificationListener {
     @Override
     public Notification postNotification(Long userId) {
         return Notification.builder()
-                .setNotificationType(NotificationTypeEnum.TICKET_CREATE)
-                .addAttribute(0, "user_profile", "username", userId.toString())
-                .addAttribute(1, "ticket", "name", getName())
-                .addAttribute(2, "event", "name", getEvent().getName());
+                .notificationType(NotificationTypeEnum.TICKET_CREATE)
+                .attributes(
+                        NotificationAttribute.builder().index(0).referenceTable("user_profile").referenceColumn("username").value(userId.toString()).build(),
+                        NotificationAttribute.builder().index(1).referenceTable("ticket").referenceColumn("name").value(getName()).build(),
+                        NotificationAttribute.builder().index(2).referenceTable("event").referenceColumn("name").value(getEvent().getName()).build()
+                );
     }
 
     @Override

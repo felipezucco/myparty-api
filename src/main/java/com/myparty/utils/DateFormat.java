@@ -19,6 +19,15 @@ public class DateFormat {
 		return null;
 	}
 
+	public static Date format(String date) {
+		try {
+			return new SimpleDateFormat(DateFormatEnum.ptBR.getFormat()).parse(date);
+		} catch (ParseException ex) {
+			Logger.getLogger(DateFormat.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
+	}
+
 	public static String format(Date date) {
 		return new SimpleDateFormat(DateFormatEnum.ptBR.getFormat()).format(date);
 	}

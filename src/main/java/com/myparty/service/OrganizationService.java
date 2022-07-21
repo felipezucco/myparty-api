@@ -49,5 +49,8 @@ public class OrganizationService {
     public List<Organizer> getOrganizerByUserId(Long userId) {
         return organizerRepository.findByUserId(userId);
     }
-    
+
+    public Organizer getOrganizerById(Long organizerId) {
+        return organizerRepository.getById(organizerId);
+    }
 }

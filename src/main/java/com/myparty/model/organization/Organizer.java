@@ -1,12 +1,11 @@
 package com.myparty.model.organization;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.organization.OrganizerConverter;
 
 import javax.persistence.*;
 
-import com.myparty.model.Action;
+import com.myparty.model.action.Action;
 
 import com.myparty.enums.RoleEnum;
 import com.myparty.model.UserProfile;

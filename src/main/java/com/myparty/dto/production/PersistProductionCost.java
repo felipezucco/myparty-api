@@ -2,7 +2,7 @@ package com.myparty.dto.production;
 
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.production.ProductionCostConverter;
-import com.myparty.dto.FinancialDTO;
+import com.myparty.dto.financial.GetFinancial;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,7 +13,7 @@ public class PersistProductionCost implements Serializable {
 
     private String name;
     private Double quantity;
-    private FinancialDTO financial;
+    private GetFinancial financial;
     private Long productionId;
 
 }

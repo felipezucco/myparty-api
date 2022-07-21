@@ -26,7 +26,7 @@ public class OrganizerConverter extends ConverterComponent implements DataConver
     @Override
     public <T> T convert(Organizer organizer, T destinationClass) {
         if (destinationClass == null) {
-            destinationClass = getDefault(GetOrganizer.class);
+            destinationClass = getDefault(destinationClass, GetOrganizer.class);
         }
 
         if (destinationClass instanceof GetOrganizer) {

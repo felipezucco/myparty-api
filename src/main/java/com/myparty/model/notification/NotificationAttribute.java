@@ -3,16 +3,13 @@ package com.myparty.model.notification;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Check;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "notification_attribute")
 public class NotificationAttribute {
@@ -42,19 +39,5 @@ public class NotificationAttribute {
 
 	@Column(name = "reference_value")
 	private String value;
-
-	public static NotificationAttribute builder() {
-		return new NotificationAttribute();
-	}
-
-	public static NotificationAttribute builder(Notification notification, Integer index, String table, String column, String value) {
-		NotificationAttribute builder = NotificationAttribute.builder();
-		builder.setIndex(index);
-		builder.setNotification(notification);
-		builder.setReferenceTable(table);
-		builder.setReferenceColumn(column);
-		builder.setValue(value);
-		return builder;
-	}
 
 }

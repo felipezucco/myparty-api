@@ -10,8 +10,11 @@ package com.myparty.interfaces;
  */
 public interface DataConverterInterface<E> {
 
-    default <T> T getDefault(Class clazz) {
+    default <T> T getDefault(Object obj, Class clazz) {
         try {
+            if (obj != null) {
+                return (T) obj;
+            }
             return (T) clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);

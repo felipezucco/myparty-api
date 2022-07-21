@@ -1,5 +1,7 @@
 package com.myparty.model;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -20,6 +22,7 @@ import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.house.House;
 
 import com.myparty.model.notification.Notification;
+import com.myparty.model.notification.NotificationAttribute;
 import com.myparty.model.organization.Organization;
 import lombok.Data;
 
@@ -42,11 +45,12 @@ public class Event implements NotificationListener {
 
 	@Override
 	public Notification postNotification(Long userId) {
-		Notification notification = Notification.builder()
-				.setNotificationType(NotificationTypeEnum.EVENT_CREATE)
-				.addAttribute(0,"user_profile", "username", userId.toString())
-				.addAttribute(1,"event", "name", getName());
-		return notification;
+		return Notification.builder()
+				.notificationType(NotificationTypeEnum.EVENT_CREATE)
+				.attributes(
+						NotificationAttribute.builder().index(0).referenceTable("user_profile").referenceColumn("username").value(userId.toString()).build(),
+						NotificationAttribute.builder().index(1).referenceTable("event").referenceColumn("name").value(getName()).build()
+				);
 	}
 
 	@Override

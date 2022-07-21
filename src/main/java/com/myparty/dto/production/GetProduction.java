@@ -3,7 +3,7 @@ package com.myparty.dto.production;
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.production.ProductionConverter;
 import com.myparty.dto.event.GetEvent;
-import com.myparty.dto.FinancialDTO;
+import com.myparty.dto.financial.GetFinancial;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ public class GetProduction implements Serializable {
     private String name;
     private Integer staffQuantity;
     private GetEvent event;
-    private FinancialDTO financial;
+    private GetFinancial financial;
     private List<GetProductionCost> productionCost;
 
 }

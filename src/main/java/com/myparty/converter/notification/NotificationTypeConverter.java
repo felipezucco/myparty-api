@@ -1,4 +1,4 @@
-package com.myparty.converter;
+package com.myparty.converter.notification;
 
 import java.util.stream.Stream;
 

@@ -1,5 +1,6 @@
 package com.myparty.model.house;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.myparty.enums.NotificationTypeEnum;
 import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.notification.Notification;
+import com.myparty.model.notification.NotificationAttribute;
 import com.myparty.model.organization.Organization;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
@@ -40,11 +42,12 @@ public class House implements NotificationListener {
 
 	@Override
 	public Notification postNotification(Long userId) {
-		Notification notification = Notification.builder()
-				.setNotificationType(NotificationTypeEnum.HOUSE_CREATE)
-				.addAttribute(0,"user_profile", "username", userId.toString())
-				.addAttribute(1,"house", "name", getName());
-		return notification;
+		return Notification.builder()
+				.notificationType(NotificationTypeEnum.HOUSE_CREATE)
+				.attributes(
+						NotificationAttribute.builder().index(0).referenceTable("user_profile").referenceColumn("username").value(userId.toString()).build(),
+						NotificationAttribute.builder().index(1).referenceTable("house").referenceColumn("name").value(getName()).build()
+				);
 	}
 
 	@Override

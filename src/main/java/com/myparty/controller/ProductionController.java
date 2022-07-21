@@ -28,4 +28,10 @@ public class ProductionController extends ControllerComponent {
         return ResponseEntity.ok(_8(service.getProductionByEventId(eventId)));
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeProduction(@PathVariable("id") Long id) {
+        service.removeProduction(id);
+    }
+
 }

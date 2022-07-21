@@ -18,6 +18,10 @@ public class ProductionService {
         return production;
     }
 
+    public void removeProduction(Long id) {
+        productionRepository.deleteById(id);
+    }
+
     public List<Production> getProductionByEventId(Long eventId) {
         return productionRepository.findByEventId(eventId);
     }
