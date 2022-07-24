@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.production.ProductionConverter;
-import com.myparty.enums.NotificationTypeEnum;
+import com.myparty.enums.notification.NotificationTypeEnum;
 import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.Event;
 import com.myparty.model.Financial;

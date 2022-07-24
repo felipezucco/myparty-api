@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.myparty.converter.notification.NotificationTypeConverter;
-import com.myparty.enums.NotificationTypeEnum;
+import com.myparty.enums.notification.NotificationTypeEnum;
 import com.myparty.model.organization.Organization;
 
 import lombok.AllArgsConstructor;

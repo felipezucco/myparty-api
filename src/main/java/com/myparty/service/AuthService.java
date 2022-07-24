@@ -1,6 +1,7 @@
 package com.myparty.service;
 
 import com.myparty.converter.DataConverterEngine;
+import com.myparty.dto.user.GetUser;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -61,7 +62,7 @@ public class AuthService implements UserDetailsService {
     	String username = user.getUsername();
         TokenDTO tokenDTO = new TokenDTO();
 
-        GetUserWithPassword userStartsWith = converter.start(userService.getUserByUsername(username), GetUserWithPassword.class);
+        GetUser userStartsWith = converter.start(userService.getUserByUsername(username));
         tokenDTO.setUser(userStartsWith);
 
         String token = jwtService.createToken(username);

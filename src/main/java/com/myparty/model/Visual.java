@@ -2,7 +2,7 @@ package com.myparty.model;
 
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.VisualConverter;
-import com.myparty.enums.NotificationTypeEnum;
+import com.myparty.enums.notification.NotificationTypeEnum;
 import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.notification.Notification;
 import com.myparty.model.notification.NotificationAttribute;

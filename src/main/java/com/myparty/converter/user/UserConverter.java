@@ -27,7 +27,7 @@ public class UserConverter extends ConverterComponent implements DataConverterIn
     @Override
     public <T> T convert(UserProfile entity, T destinationClass) {
         if (destinationClass == null) {
-            destinationClass = (T) new GetUserWithPassword();
+            destinationClass = getDefault(destinationClass, GetUser.class);
         }
 
         if (destinationClass instanceof GetUser) {
@@ -42,7 +42,7 @@ public class UserConverter extends ConverterComponent implements DataConverterIn
             guwp.setPassword(entity.getPassword());
         }
 
-        return (T) destinationClass;
+        return destinationClass;
     }
 
     @Override

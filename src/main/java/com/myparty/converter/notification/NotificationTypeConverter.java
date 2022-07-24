@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import com.myparty.enums.NotificationTypeEnum;
+import com.myparty.enums.notification.NotificationTypeEnum;
 
 @Converter
 public class NotificationTypeConverter implements AttributeConverter<NotificationTypeEnum, String> {

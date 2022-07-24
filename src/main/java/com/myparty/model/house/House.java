@@ -1,12 +1,11 @@
 package com.myparty.model.house;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.myparty.enums.NotificationTypeEnum;
+import com.myparty.enums.notification.NotificationTypeEnum;
 import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.notification.Notification;
 import com.myparty.model.notification.NotificationAttribute;

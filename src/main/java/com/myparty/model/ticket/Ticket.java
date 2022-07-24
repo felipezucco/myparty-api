@@ -2,12 +2,11 @@ package com.myparty.model.ticket;
 
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.ticket.TicketConverter;
-import com.myparty.enums.NotificationTypeEnum;
+import com.myparty.enums.notification.NotificationTypeEnum;
 import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.Event;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 import javax.persistence.CascadeType;
 

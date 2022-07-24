@@ -1,7 +1,5 @@
 package com.myparty.model;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -17,7 +15,7 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.EventConverter;
-import com.myparty.enums.NotificationTypeEnum;
+import com.myparty.enums.notification.NotificationTypeEnum;
 import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.house.House;
 

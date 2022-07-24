@@ -8,15 +8,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.myparty.annotations.DataConverterType;
 import com.myparty.converter.LocalConverter;
-import com.myparty.enums.NotificationTypeEnum;
+import com.myparty.enums.notification.NotificationTypeEnum;
 import com.myparty.interfaces.notification.NotificationListener;
 import com.myparty.model.notification.Notification;
 import com.myparty.model.organization.Organization;
 
 import lombok.Data;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 @Data
 @Entity

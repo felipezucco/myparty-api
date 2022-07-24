@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.myparty.converter.ConverterComponent;
 import com.myparty.interfaces.DataConverterInterface;
 import com.myparty.model.notification.NotificationSent;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -19,15 +20,11 @@ import com.myparty.service.UserService;
 import com.myparty.utils.DateFormat;
 
 @Component
+@AllArgsConstructor
 public class NotificationConverter extends ConverterComponent implements DataConverterInterface<NotificationSent> {
 
-	@Autowired
 	private MessageSource messageSource;
-
-	@Autowired
 	private NotificationTools notificationTools;
-
-	@Autowired
 	private UserService userService;
 
 	@Override
@@ -36,9 +33,11 @@ public class NotificationConverter extends ConverterComponent implements DataCon
 
 		dto.setDate(DateFormat.format(entity.getNotification().getDate()));
 		dto.setId(entity.getId());
+		dto.setType(entity.getNotification().getNotificationType().getCode());
 		dto.setOrganization(entity.getNotification().getOrganization().getName());
 		dto.setUser(entity.getUser().getUsername());
 		dto.setVisualized(entity.isVisualized());
+		dto.setInstructions(entity.getNotification().getNotificationType().getEvents());
 
 		dto.setMessage(messageSource.getMessage(entity.getNotification().getNotificationType().getCode(), null, Locale.getDefault()));
 
